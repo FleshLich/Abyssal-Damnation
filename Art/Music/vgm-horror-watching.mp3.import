@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/vgm-horror-watching.mp3-c9c0af76146e10016b106625e8dbc1cc.mp3str"
+
+[deps]
+
+source_file="res://Art/Music/vgm-horror-watching.mp3"
+dest_files=[ "res://.import/vgm-horror-watching.mp3-c9c0af76146e10016b106625e8dbc1cc.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

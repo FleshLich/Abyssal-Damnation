@@ -1,0 +1,141 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Menu/Scripts/Menu.gd" type="Script" id=1]
+[ext_resource path="res://Art/Fonts/m5x7.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Art/MainTheme.tres" type="Theme" id=3]
+[ext_resource path="res://Art/Music/vgm-horror-watching.mp3" type="AudioStream" id=4]
+
+[sub_resource type="DynamicFont" id=3]
+size = 50
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="Animation" id=13]
+resource_name = "FadeIn"
+length = 0.75
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[node name="Title Screen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menu" type="VBoxContainer" parent="."]
+margin_left = 120.122
+margin_top = 80.0
+margin_right = 1160.12
+margin_bottom = 640.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Menu"]
+margin_right = 1040.0
+margin_bottom = 41.0
+custom_fonts/font = SubResource( 3 )
+text = "Abyssal Damnation"
+align = 1
+uppercase = true
+
+[node name="HSeparator" type="HSeparator" parent="Menu"]
+margin_top = 45.0
+margin_right = 1040.0
+margin_bottom = 147.0
+custom_styles/separator = SubResource( 4 )
+custom_constants/separation = 102
+
+[node name="CenterContainer" type="CenterContainer" parent="Menu"]
+margin_top = 151.0
+margin_right = 1040.0
+margin_bottom = 192.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayButton" type="Button" parent="Menu/CenterContainer"]
+margin_left = 487.0
+margin_right = 553.0
+margin_bottom = 41.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 3 )
+text = "Play"
+
+[node name="CenterContainer2" type="CenterContainer" parent="Menu"]
+margin_top = 196.0
+margin_right = 1040.0
+margin_bottom = 237.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreditButton" type="Button" parent="Menu/CenterContainer2"]
+margin_left = 461.0
+margin_right = 578.0
+margin_bottom = 41.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 0
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = SubResource( 3 )
+text = "Credits"
+
+[node name="CenterContainer3" type="CenterContainer" parent="Menu"]
+margin_top = 241.0
+margin_right = 1040.0
+margin_bottom = 282.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExitButton" type="Button" parent="Menu/CenterContainer3"]
+margin_left = 488.0
+margin_right = 551.0
+margin_bottom = 41.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = SubResource( 3 )
+text = "Exit"
+
+[node name="FadeIn" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FadeIn"]
+anims/FadeIn = SubResource( 13 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+autoplay = true
+
+[connection signal="pressed" from="Menu/CenterContainer/PlayButton" to="Menu" method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="Menu/CenterContainer/PlayButton" to="Menu/CenterContainer/PlayButton" method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="Menu/CenterContainer2/CreditButton" to="Menu" method="_on_CreditButton_pressed"]
+[connection signal="pressed" from="Menu/CenterContainer3/ExitButton" to="Menu" method="_on_ExitButton_pressed"]
+[connection signal="animation_finished" from="FadeIn/AnimationPlayer" to="Menu" method="_on_AnimationPlayer_animation_finished"]
