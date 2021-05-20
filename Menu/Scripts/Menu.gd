@@ -18,7 +18,7 @@ func _ready():
 
 
 func _on_PlayButton_pressed():
-	get_tree().change_scene("res://Menu/Typewriter Cutscene.tscn")
+	get_parent().get_node("FadeIn").get_node("AnimationPlayer").play("FadeOut")
 
 
 func _on_CreditButton_pressed():
@@ -30,4 +30,5 @@ func _on_ExitButton_pressed():
 
 
 func _on_AnimationPlayer_animation_finished(anim_name):
-	pass
+	if anim_name == "FadeOut":
+		get_tree().change_scene("res://Menu/Typewriter Cutscene.tscn")

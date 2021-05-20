@@ -18,13 +18,10 @@ __meta__ = {
 }
 
 [node name="CenterContainer2" type="CenterContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+anchor_top = 0.967
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -640.0
-margin_top = -24.0
-margin_right = 640.0
+margin_top = -0.240051
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -37,11 +34,10 @@ custom_fonts/font = SubResource( 1 )
 text = "Right click to go back"
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -640.0
-margin_right = 640.0
-margin_bottom = 24.0
+anchor_right = 1.0
+anchor_bottom = 0.033
+margin_left = -1.0
+margin_bottom = 0.24
 __meta__ = {
 "_edit_use_anchors_": false
 }
