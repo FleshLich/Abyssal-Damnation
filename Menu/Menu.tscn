@@ -137,7 +137,7 @@ custom_styles/normal = SubResource( 3 )
 custom_fonts/font = SubResource( 1 )
 text = "Exit"
 
-[node name="FadeIn" type="ColorRect" parent="."]
+[node name="Fade" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -146,7 +146,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="FadeIn"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Fade"]
 anims/FadeIn = SubResource( 4 )
 anims/FadeOut = SubResource( 5 )
 
@@ -158,4 +158,4 @@ autoplay = true
 [connection signal="pressed" from="Menu/CenterContainer/PlayButton" to="Menu" method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="Menu/CenterContainer2/CreditButton" to="Menu" method="_on_CreditButton_pressed"]
 [connection signal="pressed" from="Menu/CenterContainer3/ExitButton" to="Menu" method="_on_ExitButton_pressed"]
-[connection signal="animation_finished" from="FadeIn/AnimationPlayer" to="Menu" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_finished" from="Fade/AnimationPlayer" to="Menu" method="_on_AnimationPlayer_animation_finished"]

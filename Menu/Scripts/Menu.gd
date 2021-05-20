@@ -8,7 +8,7 @@ extends VBoxContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	get_parent().get_node("FadeIn").get_node("AnimationPlayer").play("FadeIn")
+	get_parent().get_node("Fade").get_node("AnimationPlayer").play("FadeIn")
 	pass # Replace with function body.
 
 
@@ -18,7 +18,7 @@ func _ready():
 
 
 func _on_PlayButton_pressed():
-	get_parent().get_node("FadeIn").get_node("AnimationPlayer").play("FadeOut")
+	get_parent().get_node("Fade").get_node("AnimationPlayer").play("FadeOut")
 
 
 func _on_CreditButton_pressed():
