@@ -14,3 +14,5 @@ func _ready():
 func _process(delta):
 	if Input.is_action_pressed("RightClick"):
 		get_tree().change_scene("res://Menu/Menu.tscn")
+	elif Input.is_action_pressed("LeftClick"):
+		get_tree().change_scene("res://Game/TestScene.tscn")
