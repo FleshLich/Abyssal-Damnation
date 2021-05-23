@@ -108,3 +108,8 @@ func _on_DashTimer_timeout():
 
 func _on_DashCooldown_timeout():
 	can_dash = true
+
+
+func _on_Attack_Area_area_entered(area):
+	if area.is_in_group("Enemy"):
+		print("Hit")
