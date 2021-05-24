@@ -3,6 +3,8 @@ extends KinematicBody2D
 export var health = 100
 export var combo_points = 0
 
+export var attack_num = 0
+
 export var SPEED = 10
 export var DASH_SPEED = 30
 
@@ -35,6 +37,8 @@ func _physics_process(delta):
 	var motion = Vector2()	
 	
 	if Input.is_action_pressed("Space") and not is_attacking and can_dash:
+		set_collision_mask_bit(3, false)
+		set_collision_layer_bit(2, false)
 		can_dash = false
 		is_dashing = true
 		dashTimer.start()
@@ -104,12 +108,13 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 func _on_DashTimer_timeout():
 	is_dashing = false
 	cooldown.start()
+	set_collision_mask_bit(3, true)
+	set_collision_layer_bit(2, true)
 
 
 func _on_DashCooldown_timeout():
 	can_dash = true
 
-
-func _on_Attack_Area_area_entered(area):
-	if area.is_in_group("Enemy"):
-		print("Hit")
+func _on_Attack_Area_body_entered(body):
+	print(attack_num)
+	body.print_hello()

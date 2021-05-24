@@ -31,8 +31,20 @@ tracks/1/keys = {
 "update": 1,
 "values": [ true, false, true ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("..:attack_num")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.36 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=2]
 resource_name = "Attack2"
 step = 0.09
 tracks/0/type = "value"
@@ -59,9 +71,20 @@ tracks/1/keys = {
 "update": 1,
 "values": [ true, false, true, false, true ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("..:attack_num")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.45, 0.81 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 1, 2 ]
+}
 
-[sub_resource type="Animation" id=2]
-resource_name = "Dash"
+[sub_resource type="Animation" id=3]
 length = 0.65
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -76,7 +99,7 @@ tracks/0/keys = {
 "values": [ 68, 69, 70, 71, 72, 73, 74 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=4]
 resource_name = "Dead"
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
@@ -91,7 +114,7 @@ tracks/0/keys = {
 "values": [ 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=5]
 resource_name = "Hurt"
 length = 0.35
 tracks/0/type = "value"
@@ -107,7 +130,7 @@ tracks/0/keys = {
 "values": [ 37, 38, 39, 40 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=6]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -123,7 +146,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=7]
 length = 0.75
 loop = true
 tracks/0/type = "value"
@@ -139,7 +162,7 @@ tracks/0/keys = {
 "values": [ 6, 7, 8, 9, 10, 11, 12, 13 ]
 }
 
-[sub_resource type="CapsuleShape2D" id=5]
+[sub_resource type="CapsuleShape2D" id=8]
 radius = 9.73871
 height = 14.9463
 
@@ -149,6 +172,8 @@ extents = Vector2( 12.0409, 17.034 )
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 248.925, 144.485 )
 scale = Vector2( 2.511, 2.511 )
+collision_layer = 4
+collision_mask = 8
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -159,12 +184,12 @@ frame = 25
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/Attack = SubResource( 1 )
-anims/Attack2 = SubResource( 8 )
-anims/Dash = SubResource( 2 )
-anims/Dead = SubResource( 6 )
-anims/Hurt = SubResource( 7 )
-anims/Idle = SubResource( 3 )
-anims/Run = SubResource( 4 )
+anims/Attack2 = SubResource( 2 )
+anims/Dash = SubResource( 3 )
+anims/Dead = SubResource( 4 )
+anims/Hurt = SubResource( 5 )
+anims/Idle = SubResource( 6 )
+anims/Run = SubResource( 7 )
 
 [node name="DashTimer" type="Timer" parent="."]
 wait_time = 0.2
@@ -175,18 +200,17 @@ one_shot = true
 
 [node name="Player Hitbox" type="CollisionShape2D" parent="."]
 position = Vector2( -7.78696, 5.42728 )
-scale = Vector2( 1, 1 )
-shape = SubResource( 5 )
+shape = SubResource( 8 )
 
 [node name="Attack Area" type="Area2D" parent="."]
+collision_mask = 2
 
 [node name="Attack Hitbox" type="CollisionShape2D" parent="Attack Area"]
 position = Vector2( 18.2355, 2.67688 )
-scale = Vector2( 1, 1 )
 shape = SubResource( 9 )
 disabled = true
 
 [connection signal="animation_finished" from="Sprite/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]
 [connection signal="timeout" from="DashCooldown" to="." method="_on_DashCooldown_timeout"]
-[connection signal="area_entered" from="Attack Area" to="." method="_on_Attack_Area_area_entered"]
+[connection signal="body_entered" from="Attack Area" to="." method="_on_Attack_Area_body_entered"]
