@@ -1,16 +1,22 @@
 extends KinematicBody2D
 
 export var health = 100
+export var max_health = 100
 export var combo_points = 0
+export var max_combo_points = 5
 
 export var attack_num = 0
 
 export var SPEED = 10
 export var DASH_SPEED = 30
 
+export var damage = 10
+export var second_damage = 15
+
 onready var animplayer = $Sprite/AnimationPlayer
 onready var dashTimer = $DashTimer
 onready var cooldown = $DashCooldown
+onready var decayTimer = $"ComboDecay Timer"
 
 var screen_size
 
@@ -23,18 +29,19 @@ var is_combo = false
 var can_dash = true
 var is_dashing = false
 
+export var dead = false
+
 var last_direction = Vector2.DOWN
 
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	screen_size = get_viewport_rect().size
+	$"Attack Area/Attack Hitbox".disabled = true
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	var motion = Vector2()	
+	var motion = Vector2()
+	
+	if dead:
+		return
 	
 	if Input.is_action_pressed("Space") and not is_attacking and can_dash:
 		set_collision_mask_bit(3, false)
@@ -99,11 +106,24 @@ func _physics_process(delta):
 	motion = move_and_collide(motion)
 	
 
+func add_combo_points(points):
+	decayTimer.start()
+	if combo_points >= max_combo_points:
+		return
+	combo_points += 1
+
+func take_damage(damage):
+	health -= damage
+	if health <= 0 and not dead:
+		die()
+
+func die():
+	dead = true
+	animplayer.play("Dead")
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if "Attack" in anim_name:
 		is_attacking = false
-
 
 func _on_DashTimer_timeout():
 	is_dashing = false
@@ -116,5 +136,10 @@ func _on_DashCooldown_timeout():
 	can_dash = true
 
 func _on_Attack_Area_body_entered(body):
-	print(attack_num)
-	body.print_hello()
+	body.take_damage(damage if attack_num == 1 else second_damage)
+	add_combo_points(1)
+
+func _on_ComboDecay_Timer_timeout():
+	if combo_points <= 0:
+		return
+	combo_points -= 1

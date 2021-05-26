@@ -175,12 +175,13 @@ scale = Vector2( 2.511, 2.511 )
 collision_layer = 4
 collision_mask = 8
 script = ExtResource( 2 )
+attack_num = 2
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 hframes = 6
 vframes = 17
-frame = 25
+frame = 23
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/Attack = SubResource( 1 )
@@ -203,14 +204,21 @@ position = Vector2( -7.78696, 5.42728 )
 shape = SubResource( 8 )
 
 [node name="Attack Area" type="Area2D" parent="."]
-collision_mask = 2
+collision_mask = 8
 
 [node name="Attack Hitbox" type="CollisionShape2D" parent="Attack Area"]
 position = Vector2( 18.2355, 2.67688 )
 shape = SubResource( 9 )
-disabled = true
+
+[node name="ComboDecay Timer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="AttackMeasuser" type="Timer" parent="."]
+wait_time = 1.2
+one_shot = true
 
 [connection signal="animation_finished" from="Sprite/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]
 [connection signal="timeout" from="DashCooldown" to="." method="_on_DashCooldown_timeout"]
 [connection signal="body_entered" from="Attack Area" to="." method="_on_Attack_Area_body_entered"]
+[connection signal="timeout" from="ComboDecay Timer" to="." method="_on_ComboDecay_Timer_timeout"]
