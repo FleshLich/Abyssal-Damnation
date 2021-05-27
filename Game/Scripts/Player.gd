@@ -14,6 +14,7 @@ export var damage = 10
 export var second_damage = 15
 
 onready var animplayer = $Sprite/AnimationPlayer
+onready var hurtPlayer = $Sprite/HurtPlayer
 onready var dashTimer = $DashTimer
 onready var cooldown = $DashCooldown
 onready var decayTimer = $"ComboDecay Timer"
@@ -23,11 +24,15 @@ var screen_size
 var is_moving = false
 var moving_left = false
 var moving_right = false
+
 var is_attacking = false
 var is_combo = false
 
 var can_dash = true
 var is_dashing = false
+
+var i_counter = 0
+var max_i = 3
 
 export var dead = false
 
@@ -71,8 +76,15 @@ func _physics_process(delta):
 		moving_right = false
 		is_moving = true
 		last_direction = Vector2.LEFT
-	
 		
+	
+	if Input.is_action_pressed("Heavy") and not is_attacking and combo_points >= 5:
+		combo_points = 0
+		is_attacking = true
+		is_combo = true
+		animplayer.playback_speed = 0.5
+		animplayer.play("Attack2")
+		is_moving = false
 	if Input.is_action_pressed("LeftClick") and not is_attacking:
 		is_attacking = true
 		animplayer.play("Attack")
@@ -113,9 +125,15 @@ func add_combo_points(points):
 	combo_points += 1
 
 func take_damage(damage):
+	if i_counter > 0:
+		return
 	health -= damage
+	if combo_points > 0:
+		combo_points -= 1
 	if health <= 0 and not dead:
 		die()
+	elif not dead:
+		hurtPlayer.play("Hurt")
 
 func die():
 	dead = true
@@ -124,6 +142,9 @@ func die():
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if "Attack" in anim_name:
 		is_attacking = false
+	if anim_name == "Attack2" and is_combo:
+		is_combo = false
+		animplayer.playback_speed = 1
 
 func _on_DashTimer_timeout():
 	is_dashing = false
@@ -136,10 +157,21 @@ func _on_DashCooldown_timeout():
 	can_dash = true
 
 func _on_Attack_Area_body_entered(body):
-	body.take_damage(damage if attack_num == 1 else second_damage)
-	add_combo_points(1)
+	if is_combo:
+		body.take_damage(damage* 2 if attack_num == 1 else second_damage * 2)
+	else:
+		body.take_damage(damage if attack_num == 1 else second_damage)
+		add_combo_points(1)
 
 func _on_ComboDecay_Timer_timeout():
 	if combo_points <= 0:
 		return
 	combo_points -= 1
+
+
+func _on_HurtPlayer_animation_finished(anim_name):
+	if i_counter < max_i:
+		i_counter += 1 
+		hurtPlayer.play("Hurt")
+	else: 
+		i_counter = 0
