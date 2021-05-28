@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 signal c_change(combo_points)
 
+export var invincible = false
 export var health = 1
 export var max_health = 1
 export var combo_points = 0
@@ -48,7 +49,7 @@ func _ready():
 
 func _physics_process(delta):
 	var motion = Vector2()
-	combo_points = 5
+	#combo_points = 5
 	
 	if dead:
 		return
@@ -62,6 +63,9 @@ func _physics_process(delta):
 		can_dash = false
 		is_dashing = true
 		dashTimer.start()
+	if Input.is_action_pressed("Invincible") and combo_points > 0:
+		set_invincible()
+		return
 	
 	is_moving = false
 	if Input.is_action_pressed("Up"):
@@ -86,7 +90,7 @@ func _physics_process(delta):
 		last_direction = Vector2.LEFT
 		
 	
-	if Input.is_action_pressed("Heavy") and not is_attacking and combo_points >= 5:
+	if Input.is_action_pressed("Heavy") and not is_attacking and combo_points >= 5 and not invincible:
 		combo_points = 0
 		is_attacking = true
 		is_combo = true
@@ -96,11 +100,11 @@ func _physics_process(delta):
 	elif Input.is_action_pressed("Stun") and not is_attacking and combo_points >= 5:
 		combo_points = 0
 		stun_attack()
-	if Input.is_action_pressed("LeftClick") and not is_attacking:
+	if Input.is_action_pressed("LeftClick") and not is_attacking and not invincible:
 		is_attacking = true
 		animplayer.play("Attack")
 		is_moving = false
-	elif Input.is_action_pressed("RightClick") and not is_attacking:
+	elif Input.is_action_pressed("RightClick") and not is_attacking and not invincible:
 		is_attacking = true
 		animplayer.play("Attack2")
 		is_moving = false
@@ -140,8 +144,20 @@ func stun_attack():
 	for N in siblings:
 		if N.has_method("stun"):
 			N.stun()
+			
+func set_invincible():
+	var seconds = combo_points
+	combo_points = 0
+	invincible = true
+	hurtPlayer.play("Hurt")
+	
+	$InvincibleTimer.wait_time = seconds
+	$InvincibleTimer.start()
+	
 
 func take_damage(damage):
+	if invincible:
+		return
 	if i_counter > 0:
 		return
 	health -= damage
@@ -189,8 +205,16 @@ func _on_ComboDecay_Timer_timeout():
 
 
 func _on_HurtPlayer_animation_finished(anim_name):
-	if i_counter < max_i:
-		i_counter += 1 
+	#if i_counter < max_i:
+	#	i_counter += 1 
+	#	hurtPlayer.play("Hurt")
+	if invincible:
 		hurtPlayer.play("Hurt")
 	else: 
 		i_counter = 0
+
+
+func _on_InvincibleTimer_timeout():
+	hurtPlayer.seek(0, true)
+	hurtPlayer.stop()
+	invincible = false

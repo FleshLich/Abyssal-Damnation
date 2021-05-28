@@ -83,6 +83,8 @@ func take_damage(damage):
 		hurtPlayer.play("Hurt")
 
 func stun():
+	if dead:
+		return
 	stun1 = health
 	animplayer.play("Idle")
 	hurtPlayer.play("Stun")

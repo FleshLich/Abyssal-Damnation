@@ -218,8 +218,7 @@ disabled = true
 [node name="ComboDecay Timer" type="Timer" parent="."]
 wait_time = 2.0
 
-[node name="AttackMeasurer" type="Timer" parent="."]
-wait_time = 1.2
+[node name="InvincibleTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="ComboPoints" parent="." instance=ExtResource( 3 )]
@@ -237,3 +236,4 @@ script = ExtResource( 4 )
 [connection signal="timeout" from="DashCooldown" to="." method="_on_DashCooldown_timeout"]
 [connection signal="body_entered" from="Attack Area" to="." method="_on_Attack_Area_body_entered"]
 [connection signal="timeout" from="ComboDecay Timer" to="." method="_on_ComboDecay_Timer_timeout"]
+[connection signal="timeout" from="InvincibleTimer" to="." method="_on_InvincibleTimer_timeout"]
