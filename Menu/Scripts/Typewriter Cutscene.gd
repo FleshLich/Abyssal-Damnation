@@ -1,12 +1,12 @@
 extends Control
 
+#Not including first one 
+var dialogue_num = 1
+var lock = true
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+onready var animplayer = $Label/AnimationPlayer
+onready var timer = $DialogueTimer
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
 
@@ -14,5 +14,15 @@ func _ready():
 func _process(delta):
 	if Input.is_action_pressed("RightClick"):
 		get_tree().change_scene("res://Menu/Menu.tscn")
-	elif Input.is_action_pressed("LeftClick"):
-		get_tree().change_scene("res://Game/TestScene.tscn")
+	if Input.is_action_pressed("LeftClick"):
+		print(dialogue_num)
+		if not lock:
+			animplayer.play("Text" + str(dialogue_num))
+			lock = true
+
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	dialogue_num += 1
+	lock = false
+	
+

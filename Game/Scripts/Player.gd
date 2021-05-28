@@ -1,17 +1,21 @@
 extends KinematicBody2D
 
-export var health = 100
-export var max_health = 100
+signal c_change(combo_points)
+
+export var health = 1
+export var max_health = 1
 export var combo_points = 0
 export var max_combo_points = 5
+
+var last_combo_points = combo_points
 
 export var attack_num = 0
 
 export var SPEED = 10
 export var DASH_SPEED = 30
 
-export var damage = 10
-export var second_damage = 15
+export var damage = 20
+export var second_damage = 25
 
 onready var animplayer = $Sprite/AnimationPlayer
 onready var hurtPlayer = $Sprite/HurtPlayer
@@ -44,9 +48,13 @@ func _ready():
 
 func _physics_process(delta):
 	var motion = Vector2()
+	combo_points = 5
 	
 	if dead:
 		return
+	if last_combo_points != combo_points:
+		emit_signal("c_change", combo_points)
+		last_combo_points = combo_points
 	
 	if Input.is_action_pressed("Space") and not is_attacking and can_dash:
 		set_collision_mask_bit(3, false)
@@ -85,6 +93,9 @@ func _physics_process(delta):
 		animplayer.playback_speed = 0.5
 		animplayer.play("Attack2")
 		is_moving = false
+	elif Input.is_action_pressed("Stun") and not is_attacking and combo_points >= 5:
+		combo_points = 0
+		stun_attack()
 	if Input.is_action_pressed("LeftClick") and not is_attacking:
 		is_attacking = true
 		animplayer.play("Attack")
@@ -123,6 +134,12 @@ func add_combo_points(points):
 	if combo_points >= max_combo_points:
 		return
 	combo_points += 1
+	
+func stun_attack():
+	var siblings = get_parent().get_children()
+	for N in siblings:
+		if N.has_method("stun"):
+			N.stun()
 
 func take_damage(damage):
 	if i_counter > 0:
@@ -131,6 +148,7 @@ func take_damage(damage):
 	if combo_points > 0:
 		combo_points -= 1
 	if health <= 0 and not dead:
+		animplayer.playback_speed = 1
 		die()
 	elif not dead:
 		hurtPlayer.play("Hurt")
@@ -158,10 +176,11 @@ func _on_DashCooldown_timeout():
 
 func _on_Attack_Area_body_entered(body):
 	if is_combo:
-		body.take_damage(damage* 2 if attack_num == 1 else second_damage * 2)
+		body.take_damage(damage* 2 if attack_num == 1 else second_damage * 3)
 	else:
 		body.take_damage(damage if attack_num == 1 else second_damage)
-		add_combo_points(1)
+		if body.get("stunned") == false:
+			add_combo_points(1)
 
 func _on_ComboDecay_Timer_timeout():
 	if combo_points <= 0:

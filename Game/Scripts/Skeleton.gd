@@ -2,18 +2,21 @@ extends KinematicBody2D
 
 onready var animplayer = $Sprite/AnimationPlayer
 onready var hurtPlayer = $Sprite/hurtPlayer
+onready var stunTimer = $StunTimer
 
 export var health = 150
 export var damage = 40
 
 export var SPEED = 3
 
-var stunned = false
+export var stunned = false
 var dead = false
 
 var is_moving = false
 var left = false
-var right = true
+var right = false
+
+var heavy_progress = 0
 
 var is_attacking = false
 
@@ -23,20 +26,25 @@ var max_i = 3
 var player = null
 var motion = Vector2()
 
+var stun1 = 0
+var stun2 = 0
+
 func _ready():
 	player = get_parent().get_node("Player")
-	print(player.position)
 	animplayer.play("Idle")
 
 func _physics_process(delta):
-	if dead:
+	if dead or stunned:
 		return
 	
 	if not is_attacking:
 		for bodyInArea in $"DetectArea".get_overlapping_bodies():
-			if bodyInArea.name == "Player":
+			if bodyInArea.name == "Player" and heavy_progress != 3:
 				is_attacking = true
 				animplayer.play("Attack")
+			else:
+				is_attacking = true
+				animplayer.play("Heavy Attack")
 	if is_attacking:
 		return
 	if is_moving:
@@ -64,29 +72,52 @@ func _physics_process(delta):
 		motion = move_and_collide(motion)
 
 func take_damage(damage):
+	heavy_progress += 1
 	health -= damage
-	print(health)
+	if stunned:
+		stun2 += damage
 	if health <= 0 and not dead:
 		die()
-	elif not dead:
+	elif not dead and not stunned:
 		i_counter = 0
 		hurtPlayer.play("Hurt")
+
+func stun():
+	stun1 = health
+	animplayer.play("Idle")
+	hurtPlayer.play("Stun")
+	stunTimer.start()
+	stunned = true
 
 func die():
 	dead = true
 	animplayer.play("Dead")
 
+func flip():
+	scale.x *= -1
+
 func _on_Hit_Area_body_entered(body):
 	body.take_damage(damage)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
-	if anim_name == "Attack":
+	if "Attack" in anim_name:
 		is_attacking = false
+	if anim_name == "Heavy Attack":
+		heavy_progress = 0
 
 
 func _on_hurtPlayer_animation_finished(anim_name):
-	if i_counter < max_i:
-		i_counter += 1
-		hurtPlayer.play("Hurt")
-	else:
-		i_counter = 0
+	if anim_name == "Hurt":
+		if i_counter < max_i:
+			i_counter += 1
+			hurtPlayer.play("Hurt")
+		else:
+			i_counter = 0
+
+
+func _on_StunTimer_timeout():
+	stunned = false
+	is_attacking = false
+	hurtPlayer.seek(0, true)
+	hurtPlayer.stop()
+	print(stun2)
