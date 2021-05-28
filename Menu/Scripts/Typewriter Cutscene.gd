@@ -1,11 +1,13 @@
 extends Control
 
-#Not including first one 
-var dialogue_num = 1
-var lock = true
-
 onready var animplayer = $Label/AnimationPlayer
 onready var timer = $DialogueTimer
+
+var dialogue_num = 1
+var num_dialogues = animplayer.get_animation_list().size()
+var lock = true
+
+
 
 func _ready():
 	pass
@@ -16,9 +18,11 @@ func _process(delta):
 		get_tree().change_scene("res://Menu/Menu.tscn")
 	if Input.is_action_pressed("LeftClick"):
 		print(dialogue_num)
-		if not lock:
+		if not lock and dialogue_num != num_dialogues:
 			animplayer.play("Text" + str(dialogue_num))
 			lock = true
+		else:
+			get_tree().change_scene("res://Game/TutorialScene.tscn")
 
 
 func _on_AnimationPlayer_animation_finished(anim_name):

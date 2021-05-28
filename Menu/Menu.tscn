@@ -100,10 +100,28 @@ size_flags_vertical = 0
 custom_fonts/font = SubResource( 1 )
 text = "Play"
 
-[node name="CenterContainer2" type="CenterContainer" parent="Menu"]
+[node name="CenterContainer4" type="CenterContainer" parent="Menu"]
 margin_top = 196.0
 margin_right = 1039.0
 margin_bottom = 237.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="QPlayButton" type="Button" parent="Menu/CenterContainer4"]
+margin_left = 429.0
+margin_right = 610.0
+margin_bottom = 41.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 1 )
+text = "Quick Start"
+
+[node name="CenterContainer2" type="CenterContainer" parent="Menu"]
+margin_top = 241.0
+margin_right = 1039.0
+margin_bottom = 282.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -119,9 +137,9 @@ custom_fonts/font = SubResource( 1 )
 text = "Credits"
 
 [node name="CenterContainer3" type="CenterContainer" parent="Menu"]
-margin_top = 241.0
+margin_top = 286.0
 margin_right = 1039.0
-margin_bottom = 282.0
+margin_bottom = 327.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -154,8 +172,9 @@ anims/FadeOut = SubResource( 5 )
 stream = ExtResource( 4 )
 autoplay = true
 
-[connection signal="pressed" from="Menu/CenterContainer/PlayButton" to="Menu" method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="Menu/CenterContainer/PlayButton" to="Menu/CenterContainer/PlayButton" method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="Menu/CenterContainer/PlayButton" to="Menu" method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="Menu/CenterContainer4/QPlayButton" to="Menu" method="_on_QPlayButton_pressed"]
 [connection signal="pressed" from="Menu/CenterContainer2/CreditButton" to="Menu" method="_on_CreditButton_pressed"]
 [connection signal="pressed" from="Menu/CenterContainer3/ExitButton" to="Menu" method="_on_ExitButton_pressed"]
 [connection signal="animation_finished" from="Fade/AnimationPlayer" to="Menu" method="_on_AnimationPlayer_animation_finished"]
