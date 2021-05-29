@@ -37,6 +37,9 @@ func _physics_process(delta):
 	if dead or stunned:
 		return
 	
+	if heavy_progress == 3:
+		hurtPlayer.play("Heavy")
+	
 	if not is_attacking:
 		for bodyInArea in $"DetectArea".get_overlapping_bodies():
 			if bodyInArea.name == "Player" and heavy_progress != 3:
@@ -93,6 +96,8 @@ func stun():
 
 func die():
 	dead = true
+	hurtPlayer.seek(0)
+	hurtPlayer.stop()
 	animplayer.play("Dead")
 
 func flip():
@@ -106,6 +111,8 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		is_attacking = false
 	if anim_name == "Heavy Attack":
 		heavy_progress = 0
+		hurtPlayer.seek(0, true)
+		hurtPlayer.stop()
 
 
 func _on_hurtPlayer_animation_finished(anim_name):
@@ -122,4 +129,3 @@ func _on_StunTimer_timeout():
 	is_attacking = false
 	hurtPlayer.seek(0, true)
 	hurtPlayer.stop()
-	print(stun2)

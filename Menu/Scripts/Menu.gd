@@ -18,6 +18,9 @@ func _on_PlayButton_pressed():
 	
 func _on_QPlayButton_pressed():
 	get_tree().change_scene("res://Game/TutorialScene.tscn")
+	
+func _on_TutorialButton_pressed():
+	get_tree().change_scene("res://Menu/Tutorial Menu.tscn")
 
 func _on_CreditButton_pressed():
 	get_tree().change_scene("res://Menu/Credits.tscn")

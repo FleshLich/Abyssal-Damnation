@@ -195,7 +195,7 @@ func _on_Attack_Area_body_entered(body):
 		body.take_damage(damage* 2 if attack_num == 1 else second_damage * 3)
 	else:
 		body.take_damage(damage if attack_num == 1 else second_damage)
-		if body.get("stunned") == false:
+		if body.get("stunned") == false and body.get("dead") == false:
 			add_combo_points(1)
 
 func _on_ComboDecay_Timer_timeout():

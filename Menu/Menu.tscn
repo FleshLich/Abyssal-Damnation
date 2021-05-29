@@ -118,10 +118,28 @@ size_flags_vertical = 0
 custom_fonts/font = SubResource( 1 )
 text = "Quick Start"
 
-[node name="CenterContainer2" type="CenterContainer" parent="Menu"]
+[node name="CenterContainer5" type="CenterContainer" parent="Menu"]
 margin_top = 241.0
 margin_right = 1039.0
 margin_bottom = 282.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TutorialButton" type="Button" parent="Menu/CenterContainer5"]
+margin_left = 412.0
+margin_right = 626.0
+margin_bottom = 41.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 1 )
+text = "View Tutorial"
+
+[node name="CenterContainer2" type="CenterContainer" parent="Menu"]
+margin_top = 286.0
+margin_right = 1039.0
+margin_bottom = 327.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -137,9 +155,9 @@ custom_fonts/font = SubResource( 1 )
 text = "Credits"
 
 [node name="CenterContainer3" type="CenterContainer" parent="Menu"]
-margin_top = 286.0
+margin_top = 331.0
 margin_right = 1039.0
-margin_bottom = 327.0
+margin_bottom = 372.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -156,6 +174,7 @@ custom_fonts/font = SubResource( 1 )
 text = "Exit"
 
 [node name="Fade" type="ColorRect" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -175,6 +194,7 @@ autoplay = true
 [connection signal="pressed" from="Menu/CenterContainer/PlayButton" to="Menu/CenterContainer/PlayButton" method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="Menu/CenterContainer/PlayButton" to="Menu" method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="Menu/CenterContainer4/QPlayButton" to="Menu" method="_on_QPlayButton_pressed"]
+[connection signal="pressed" from="Menu/CenterContainer5/TutorialButton" to="Menu" method="_on_TutorialButton_pressed"]
 [connection signal="pressed" from="Menu/CenterContainer2/CreditButton" to="Menu" method="_on_CreditButton_pressed"]
 [connection signal="pressed" from="Menu/CenterContainer3/ExitButton" to="Menu" method="_on_ExitButton_pressed"]
 [connection signal="animation_finished" from="Fade/AnimationPlayer" to="Menu" method="_on_AnimationPlayer_animation_finished"]
