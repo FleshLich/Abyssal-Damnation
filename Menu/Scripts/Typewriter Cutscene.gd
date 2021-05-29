@@ -4,13 +4,13 @@ onready var animplayer = $Label/AnimationPlayer
 onready var timer = $DialogueTimer
 
 var dialogue_num = 1
-var num_dialogues = animplayer.get_animation_list().size()
+var num_dialogues = 0
 var lock = true
 
 
 
 func _ready():
-	pass
+	num_dialogues = animplayer.get_animation_list().size()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

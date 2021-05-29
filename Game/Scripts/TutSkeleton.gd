@@ -1,17 +1,13 @@
 extends KinematicBody2D
 
-var rng = RandomNumberGenerator.new()
-
 onready var animplayer = $Sprite/AnimationPlayer
 onready var hurtPlayer = $Sprite/hurtPlayer
 onready var stunTimer = $StunTimer
-onready var blockTimer = $BlockTimer
-onready var hbox = $Hitbox
 
-export var health = 40
+export var health = 150
 export var damage = 40
 
-export var SPEED = 2
+export var SPEED = 3
 
 export var stunned = false
 var dead = false
@@ -20,42 +16,46 @@ var is_moving = false
 var left = false
 var right = false
 
+var heavy_progress = 0
+
 var is_attacking = false
-var is_blocking = false
 
 var i_counter = 0
 var max_i = 3
 
-var block_stun = false
-
 var player = null
-var target = null
 var motion = Vector2()
+
+var stun1 = 0
+var stun2 = 0
 
 func _ready():
 	player = get_parent().get_node("Player")
-	SPEED = rng.randi_range(1, 3)
 	animplayer.play("Idle")
 
 func _physics_process(delta):
-	target = player.position
 	if dead or stunned:
 		return
-	if is_blocking:
-		block_stun = true
-		return
+	
+	if heavy_progress == 3:
+		hurtPlayer.play("Heavy")
 	
 	if not is_attacking:
-		for areaInArea in $"Detect Area".get_overlapping_areas():
-			if areaInArea.get_parent().name == "Player":
+		for areaInArea in $"DetectArea".get_overlapping_areas():
+			if areaInArea.get_parent().name == "Player" and heavy_progress != 3:
 				is_attacking = true
 				animplayer.play("Attack")
+			else:
+				is_attacking = true
+				animplayer.play("Heavy Attack")
 	if is_attacking:
 		return
 	if is_moving:
 		animplayer.play("Walk")
 	else:
 		animplayer.play("Idle")
+	
+	var target = player.position
 	
 	if target.x > position.x and not right:
 		right = true
@@ -75,57 +75,35 @@ func _physics_process(delta):
 		motion = move_and_collide(motion)
 
 func take_damage(damage):
-	if is_blocking:
-		animplayer.play("Shield")
-		if right and target.x > position.x:
-			block_stun = true
-			return
-		elif left and target.x < position.x:
-			block_stun = true
-			return
-		block_stun = false
+	heavy_progress += 1
 	health -= damage
+	if stunned:
+		stun2 += damage
 	if health <= 0 and not dead:
 		die()
 	elif not dead and not stunned:
-		if right and not target.x > position.x:
-			right = false
-			left = true
-			scale.x = scale.y
-		elif left and not target.x < position.x:
-			right = true
-			left = false
-			scale.x *= -1
 		i_counter = 0
-		is_blocking = true
-		blockTimer.start()
-		animplayer.play("Shield")
-		animplayer.seek(0, true)
-		animplayer.stop()
-		set_collision_mask_bit(19, true)
-		set_collision_layer_bit(19, true)
 		hurtPlayer.play("Hurt")
-		
 
 func stun():
 	if dead:
 		return
+	stun1 = health
 	animplayer.play("Idle")
 	hurtPlayer.play("Stun")
 	stunTimer.start()
 	stunned = true
 
 func die():
-	set_collision_layer_bit(3, false)
-	set_collision_layer_bit(4, false)
-	set_collision_mask_bit(2, false)
-	set_collision_mask_bit(4, false)
 	animplayer.seek(0)
 	animplayer.stop()
 	dead = true
 	hurtPlayer.seek(0)
 	hurtPlayer.stop()
 	animplayer.play("Dead")
+
+func flip():
+	scale.x *= -1
 
 func _on_Hit_Area_area_entered(area):
 	var body = area.get_parent()
@@ -134,6 +112,11 @@ func _on_Hit_Area_area_entered(area):
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if "Attack" in anim_name:
 		is_attacking = false
+	if anim_name == "Heavy Attack":
+		heavy_progress = 0
+		hurtPlayer.seek(0, true)
+		hurtPlayer.stop()
+
 
 func _on_hurtPlayer_animation_finished(anim_name):
 	if anim_name == "Hurt":
@@ -149,10 +132,4 @@ func _on_StunTimer_timeout():
 	is_attacking = false
 	hurtPlayer.seek(0, true)
 	hurtPlayer.stop()
-
-
-func _on_BlockTimer_timeout():
-	is_attacking = false
-	is_blocking = false
-	block_stun = false
 

@@ -21,6 +21,7 @@ export var second_damage = 25
 onready var animplayer = $Sprite/AnimationPlayer
 onready var hurtPlayer = $Sprite/HurtPlayer
 onready var dashTimer = $DashTimer
+onready var stunTimer = $StunTimer
 onready var cooldown = $DashCooldown
 onready var decayTimer = $"ComboDecay Timer"
 
@@ -36,6 +37,8 @@ var is_combo = false
 var can_dash = true
 var is_dashing = false
 
+var stunned = false
+
 var i_counter = 0
 var max_i = 3
 
@@ -49,9 +52,9 @@ func _ready():
 
 func _physics_process(delta):
 	var motion = Vector2()
-	#combo_points = 5
+	combo_points = 5
 	
-	if dead:
+	if dead or stunned:
 		return
 	if last_combo_points != combo_points:
 		emit_signal("c_change", combo_points)
@@ -60,6 +63,8 @@ func _physics_process(delta):
 	if Input.is_action_pressed("Space") and not is_attacking and can_dash:
 		set_collision_mask_bit(3, false)
 		set_collision_layer_bit(2, false)
+		set_collision_mask_bit(19, true)
+		set_collision_layer_bit(19, true)
 		can_dash = false
 		is_dashing = true
 		dashTimer.start()
@@ -132,6 +137,17 @@ func _physics_process(delta):
 	position.y = clamp(position.y, 0, screen_size.y)
 	motion = move_and_collide(motion)
 	
+func stun(duration):
+	is_attacking = false
+	
+	stunned = true
+	animplayer.seek(0, true)
+	animplayer.play("Idle")
+	animplayer.seek(0, true)
+	animplayer.stop()
+	hurtPlayer.play("Stun")
+	stunTimer.wait_time = duration
+	stunTimer.start()
 
 func add_combo_points(points):
 	decayTimer.start()
@@ -172,6 +188,9 @@ func take_damage(damage):
 func die():
 	dead = true
 	animplayer.play("Dead")
+	if Global.lives > 0:
+		Global.lives -= 1
+		get_tree().reload_current_scene()
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if "Attack" in anim_name:
@@ -181,6 +200,8 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		animplayer.playback_speed = 1
 
 func _on_DashTimer_timeout():
+	set_collision_mask_bit(19, false)
+	set_collision_layer_bit(19, false)
 	is_dashing = false
 	cooldown.start()
 	set_collision_mask_bit(3, true)
@@ -190,13 +211,16 @@ func _on_DashTimer_timeout():
 func _on_DashCooldown_timeout():
 	can_dash = true
 
-func _on_Attack_Area_body_entered(body):
+func _on_Attack_Area_area_entered(area):
+	var body = area.get_parent()
 	if is_combo:
 		body.take_damage(damage* 2 if attack_num == 1 else second_damage * 3)
 	else:
 		body.take_damage(damage if attack_num == 1 else second_damage)
-		if body.get("stunned") == false and body.get("dead") == false:
+		if body.get("stunned") == false and body.get("dead") == false and not body.get("is_blocking"):
 			add_combo_points(1)
+		elif body.get("block_stun") == true:
+			stun(1)
 
 func _on_ComboDecay_Timer_timeout():
 	if combo_points <= 0:
@@ -205,9 +229,6 @@ func _on_ComboDecay_Timer_timeout():
 
 
 func _on_HurtPlayer_animation_finished(anim_name):
-	#if i_counter < max_i:
-	#	i_counter += 1 
-	#	hurtPlayer.play("Hurt")
 	if invincible:
 		hurtPlayer.play("Hurt")
 	else: 
@@ -218,3 +239,11 @@ func _on_InvincibleTimer_timeout():
 	hurtPlayer.seek(0, true)
 	hurtPlayer.stop()
 	invincible = false
+
+
+func _on_StunTimer_timeout():
+	stunned = false
+	hurtPlayer.seek(0, true)
+	hurtPlayer.stop()
+	print(stunned)
+
