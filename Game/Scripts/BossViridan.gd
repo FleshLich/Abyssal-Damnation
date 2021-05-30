@@ -100,14 +100,8 @@ func throw_bomb():
 	var drop = bomb.instance()
 	drop.position = position
 	get_parent().add_child(drop)
+	tTimer.start()
 	drop.throw()
-	
-func drop_bomb():
-	var drop = bomb.instance()
-	drop.position = position
-	get_parent().add_child(drop)
-	drop.start()
-	
 
 func die():
 	$CollisionShape2D.queue_free()
@@ -119,7 +113,6 @@ func die():
 	hurtPlayer.seek(0)
 	hurtPlayer.stop()
 	animplayer.play("Dead")
-	drop_bomb()
 
 func _on_Hit_Area_area_entered(area):
 	if not is_attacking:
@@ -131,7 +124,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if "Attack" in anim_name:
 		is_attacking = false
 	if anim_name == "Throw":
-		is_throwing = true
+		is_throwing = false
 		throw_bomb()
 
 func _on_hurtPlayer_animation_finished(anim_name):

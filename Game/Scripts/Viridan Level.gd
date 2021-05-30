@@ -2,13 +2,13 @@ extends Node2D
 
 signal level_finished
 
-onready var Viridan = load("res://Game/Enemies/BossViridan.tscn")
-onready var miniboss = load("res://Game/Enemies/BossSkeleton.tscn")
+onready var Viridan = load("res://Game/Enemies/Viridan.tscn")
+onready var miniboss = load("res://Game/Enemies/BossViridan.tscn")
 onready var player = $Player
 onready var sTimer = $SpawnTimer
 
 var num_enems = Global.rand_int(16, 22)
-var max_enems = 8
+var max_enems = 5
 
 var finished = false
 
@@ -30,8 +30,9 @@ func spawn_enemy():
 	var spawn = Viridan.instance()
 	var desiredPoints = []
 	num_enems -= 1
-	if num_enems <= 0:
+	if num_enems == 0:
 		sTimer.stop()
+	if num_enems % 3 == 0 and num_enems > 0:
 		spawn = miniboss.instance()
 	for point in get_tree().get_nodes_in_group("Spawns"):
 		if player.position.distance_to(point.position) > 300:
@@ -59,9 +60,5 @@ func _on_SpawnTimer_timeout():
 	var num = get_active_enemies()
 	if num >= max_enems:
 		return
-	if num_enems % 2 == 0:
-		spawn_enemy()
-		spawn_enemy()
-	else:
-		spawn_enemy()
-	sTimer.wait_time = Global.rand_int(1, 3)
+	spawn_enemy()
+	sTimer.wait_time = Global.rand_int(2, 4)

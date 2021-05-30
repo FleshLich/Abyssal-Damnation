@@ -281,7 +281,9 @@ texture = ExtResource( 6 )
 hframes = 12
 frame = 10
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite" groups=[
+"Enemy",
+]]
 anims/Attack = SubResource( 1 )
 anims/Dead = SubResource( 2 )
 anims/Idle = SubResource( 3 )
