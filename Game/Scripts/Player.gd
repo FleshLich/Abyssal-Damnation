@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 signal c_change(combo_points)
+signal died
 
 export var invincible = false
 export var health = 1
@@ -49,6 +50,14 @@ var last_direction = Vector2.DOWN
 func _ready():
 	screen_size = get_viewport_rect().size
 	$"Attack Area/Attack Hitbox".disabled = true
+	
+func reset_state():
+	is_dashing = false
+	stunned = false
+	is_combo = false
+	is_attacking = false
+	moving_left = false
+	moving_right = false
 
 func _physics_process(delta):
 	var motion = Vector2()
@@ -61,8 +70,8 @@ func _physics_process(delta):
 		last_combo_points = combo_points
 	
 	if Input.is_action_pressed("Space") and not is_attacking and can_dash:
-		set_collision_mask_bit(3, false)
-		set_collision_layer_bit(2, false)
+		set_collision_mask_bit(1, false)
+		set_collision_layer_bit(0, false)
 		set_collision_mask_bit(19, true)
 		set_collision_layer_bit(19, true)
 		can_dash = false
@@ -141,9 +150,7 @@ func stun(duration):
 	is_attacking = false
 	
 	stunned = true
-	animplayer.seek(0, true)
-	animplayer.play("Idle")
-	animplayer.seek(0, true)
+	$"Attack Area/Attack Hitbox".disabled = true
 	animplayer.stop()
 	hurtPlayer.play("Stun")
 	stunTimer.wait_time = duration
@@ -158,7 +165,7 @@ func add_combo_points(points):
 func stun_attack():
 	var siblings = get_parent().get_children()
 	for N in siblings:
-		if N.has_method("stun"):
+		if N.has_method("stun") and N.name != "Player":
 			N.stun()
 			
 func set_invincible():
@@ -190,7 +197,7 @@ func die():
 	animplayer.play("Dead")
 	if Global.lives > 0:
 		Global.lives -= 1
-		get_tree().reload_current_scene()
+		emit_signal("died")
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if "Attack" in anim_name:
@@ -204,23 +211,23 @@ func _on_DashTimer_timeout():
 	set_collision_layer_bit(19, false)
 	is_dashing = false
 	cooldown.start()
-	set_collision_mask_bit(3, true)
-	set_collision_layer_bit(2, true)
+	set_collision_mask_bit(1, true)
+	set_collision_layer_bit(0, true)
 
 
 func _on_DashCooldown_timeout():
 	can_dash = true
 
 func _on_Attack_Area_area_entered(area):
+	if not is_attacking:
+		return
 	var body = area.get_parent()
 	if is_combo:
-		body.take_damage(damage* 2 if attack_num == 1 else second_damage * 3)
+		body.take_damage(damage* 2 if attack_num == 1 else second_damage * 3, self)
 	else:
-		body.take_damage(damage if attack_num == 1 else second_damage)
+		body.take_damage(damage if attack_num == 1 else second_damage, self)
 		if body.get("stunned") == false and body.get("dead") == false and not body.get("is_blocking"):
 			add_combo_points(1)
-		elif body.get("block_stun") == true:
-			stun(1)
 
 func _on_ComboDecay_Timer_timeout():
 	if combo_points <= 0:
@@ -243,7 +250,7 @@ func _on_InvincibleTimer_timeout():
 
 func _on_StunTimer_timeout():
 	stunned = false
+	reset_state()
 	hurtPlayer.seek(0, true)
 	hurtPlayer.stop()
-	print(stunned)
 

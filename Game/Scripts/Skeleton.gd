@@ -6,7 +6,7 @@ onready var animplayer = $Sprite/AnimationPlayer
 onready var hurtPlayer = $Sprite/hurtPlayer
 onready var stunTimer = $StunTimer
 onready var blockTimer = $BlockTimer
-onready var hbox = $Hitbox
+onready var hbox = $Hitbox2/Hitbox
 
 export var health = 40
 export var damage = 40
@@ -26,24 +26,29 @@ var is_blocking = false
 var i_counter = 0
 var max_i = 3
 
-var block_stun = false
-
 var player = null
 var target = null
 var motion = Vector2()
 
+var rect = null
+
 func _ready():
 	player = get_parent().get_node("Player")
-	SPEED = rng.randi_range(1, 3)
+	SPEED = Global.rand_int(2, 4)
 	animplayer.play("Idle")
 
 func _physics_process(delta):
 	target = player.position
+	
 	if dead or stunned:
 		return
 	if is_blocking:
-		block_stun = true
 		return
+	
+	if target.x >= position.x:
+		target.x = target.x - ($CollisionShape2D.shape.radius * 5)
+	elif target.x < position.x:
+		target.x = target.x + ($CollisionShape2D.shape.radius * 5)
 	
 	if not is_attacking:
 		for areaInArea in $"Detect Area".get_overlapping_areas():
@@ -57,42 +62,40 @@ func _physics_process(delta):
 	else:
 		animplayer.play("Idle")
 	
-	if target.x > position.x and not right:
+	if target.x >= position.x and not right:
 		right = true
 		left = false
 	elif target.x < position.x and not left:
 		left = true
 		right = false
 	
-	motion = (target - position).normalized() * SPEED
+	motion = position.direction_to(target) * SPEED
 	if right:
 		scale.x = scale.y
 	elif left:
 		scale.x = scale.y * -1 
 	
-	if (target - position).length() > 7:
-		is_moving = true
-		motion = move_and_collide(motion)
-
-func take_damage(damage):
+	is_moving = true
+	motion = move_and_collide(motion)
+		
+func take_damage(damage, body=null):
 	if is_blocking:
 		animplayer.play("Shield")
-		if right and target.x > position.x:
-			block_stun = true
+		if right and player.position.x > position.x:
+			if body.has_method("stun"): body.stun(1)
 			return
-		elif left and target.x < position.x:
-			block_stun = true
+		elif left and player.position.x < position.x:
+			if body.has_method("stun"): body.stun(1)
 			return
-		block_stun = false
 	health -= damage
 	if health <= 0 and not dead:
 		die()
 	elif not dead and not stunned:
-		if right and not target.x > position.x:
+		if right and not player.position.x >= position.x:
 			right = false
 			left = true
 			scale.x = scale.y
-		elif left and not target.x < position.x:
+		elif left and not player.position.x < position.x:
 			right = true
 			left = false
 			scale.x *= -1
@@ -116,10 +119,8 @@ func stun():
 	stunned = true
 
 func die():
-	set_collision_layer_bit(3, false)
-	set_collision_layer_bit(4, false)
-	set_collision_mask_bit(2, false)
-	set_collision_mask_bit(4, false)
+	$CollisionShape2D.queue_free()
+	z_index = -1
 	animplayer.seek(0)
 	animplayer.stop()
 	dead = true
@@ -128,6 +129,8 @@ func die():
 	animplayer.play("Dead")
 
 func _on_Hit_Area_area_entered(area):
+	if not is_attacking:
+		return
 	var body = area.get_parent()
 	body.take_damage(damage)
 
@@ -149,10 +152,9 @@ func _on_StunTimer_timeout():
 	is_attacking = false
 	hurtPlayer.seek(0, true)
 	hurtPlayer.stop()
-
+	
 
 func _on_BlockTimer_timeout():
 	is_attacking = false
 	is_blocking = false
-	block_stun = false
 

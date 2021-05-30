@@ -256,14 +256,14 @@ tracks/0/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=12]
-radius = 23.8176
+radius = 20.19
 
 [sub_resource type="CircleShape2D" id=10]
 radius = 23.9468
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 7.22502
-height = 13.4393
+radius = 9.98779
+height = 18.0659
 
 [sub_resource type="CapsuleShape2D" id=13]
 radius = 14.3991
@@ -275,6 +275,7 @@ height = 30.6809
 scale = Vector2( 1.95, 1.95 )
 collision_layer = 18
 collision_mask = 17
+collision/safe_margin = 0.01
 script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -298,7 +299,7 @@ collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detect Area"]
-position = Vector2( 48.1216, -4.6595 )
+position = Vector2( 44.858, -3.93426 )
 shape = SubResource( 12 )
 
 [node name="Hit Area" type="Area2D" parent="."]
@@ -323,7 +324,7 @@ collision_layer = 8
 collision_mask = 4
 
 [node name="Hitbox" type="CollisionShape2D" parent="Hitbox2"]
-position = Vector2( 3.70813, -4.23785 )
+position = Vector2( 4.05041, -0.472917 )
 scale = Vector2( 1, 1 )
 shape = SubResource( 1 )
 
