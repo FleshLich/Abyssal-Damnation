@@ -24,7 +24,7 @@ func _physics_process(delta):
 
 func spawn_skeleton():
 	var spawn = skeleton.instance()
-	var desiredPoints = [$Spawn5]
+	var desiredPoints = []
 	num_skels -= 1
 	if num_skels <= 0:
 		sTimer.stop()
