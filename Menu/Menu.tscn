@@ -174,7 +174,6 @@ custom_fonts/font = SubResource( 1 )
 text = "Exit"
 
 [node name="Fade" type="ColorRect" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -191,8 +190,8 @@ anims/FadeOut = SubResource( 5 )
 stream = ExtResource( 4 )
 autoplay = true
 
-[connection signal="pressed" from="Menu/CenterContainer/PlayButton" to="Menu/CenterContainer/PlayButton" method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="Menu/CenterContainer/PlayButton" to="Menu" method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="Menu/CenterContainer/PlayButton" to="Menu/CenterContainer/PlayButton" method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="Menu/CenterContainer4/QPlayButton" to="Menu" method="_on_QPlayButton_pressed"]
 [connection signal="pressed" from="Menu/CenterContainer5/TutorialButton" to="Menu" method="_on_TutorialButton_pressed"]
 [connection signal="pressed" from="Menu/CenterContainer2/CreditButton" to="Menu" method="_on_CreditButton_pressed"]

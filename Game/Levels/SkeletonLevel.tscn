@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Art/Tileset/Tiles.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Game/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://LevelTitle.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Game/Levels/SkeletonLevel.gd" type="Script" id=4]
 
 [node name="Node2D" type="Node2D"]
@@ -18,33 +19,37 @@ wait_time = 3.0
 autostart = true
 
 [node name="Spawn1" type="Position2D" parent="." groups=[
-"SkelSpawns",
+"Spawns",
 ]]
 position = Vector2( 77, 52 )
 
 [node name="Spawn2" type="Position2D" parent="." groups=[
-"SkelSpawns",
+"Spawns",
 ]]
 position = Vector2( 1186, 58 )
 
 [node name="Spawn3" type="Position2D" parent="." groups=[
-"SkelSpawns",
+"Spawns",
 ]]
 position = Vector2( 644, 51 )
 
 [node name="Spawn4" type="Position2D" parent="." groups=[
-"SkelSpawns",
+"Spawns",
 ]]
 position = Vector2( 39, 684 )
 
 [node name="Spawn5" type="Position2D" parent="." groups=[
-"SkelSpawns",
+"Spawns",
 ]]
 position = Vector2( 595, 685 )
 
 [node name="Spawn6" type="Position2D" parent="." groups=[
-"SkelSpawns",
+"Spawns",
 ]]
 position = Vector2( 1167, 684 )
+
+[node name="LevelTitle" parent="." instance=ExtResource( 3 )]
+title = "Skeleton Horde"
+subtitle = "Destroy the abominable bonemen"
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]

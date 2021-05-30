@@ -1,15 +1,16 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://Art/Enemies/Skeleton2/Idle.png" type="Texture" id=1]
-[ext_resource path="res://Art/Enemies/Skeleton2/Attack.png" type="Texture" id=2]
-[ext_resource path="res://Art/Enemies/Skeleton2/Shield.png" type="Texture" id=3]
-[ext_resource path="res://Game/Scripts/Skeleton.gd" type="Script" id=4]
-[ext_resource path="res://Art/Enemies/Skeleton2/Walk.png" type="Texture" id=5]
-[ext_resource path="res://Art/Enemies/Skeleton2/Death.png" type="Texture" id=6]
+[ext_resource path="res://Art/Enemies/Viridan/Idle.png" type="Texture" id=1]
+[ext_resource path="res://Art/Enemies/Viridan/Run.png" type="Texture" id=2]
+[ext_resource path="res://Art/Enemies/Viridan/Death.png" type="Texture" id=3]
+[ext_resource path="res://Art/Enemies/Viridan/Attack.png" type="Texture" id=4]
+[ext_resource path="res://Game/Scripts/BossViridan.gd" type="Script" id=5]
+[ext_resource path="res://Art/Enemies/Viridan/Attack3.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Attack"
-length = 0.8
+length = 0.6
+step = 0.08
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:texture")
 tracks/0/interp = 1
@@ -20,7 +21,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 2 ) ]
+"values": [ ExtResource( 4 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:hframes")
@@ -41,7 +42,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"times": PoolRealArray( 0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
@@ -53,7 +54,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.6, 0.7 ),
+"times": PoolRealArray( 0, 0.48, 0.56 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ true, false, true ]
@@ -62,87 +63,7 @@ tracks/3/keys = {
 [sub_resource type="Animation" id=2]
 resource_name = "Dead"
 length = 0.4
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ ExtResource( 6 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:hframes")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 4 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath(".:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3 ]
-}
-
-[sub_resource type="Animation" id=3]
-length = 0.45
-loop = true
-step = 0.15
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:hframes")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 4 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:texture")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ ExtResource( 1 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath(".:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.15, 0.3, 0.45 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3 ]
-}
-
-[sub_resource type="Animation" id=4]
-resource_name = "Shield"
-length = 0.35
+step = 0.12
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:texture")
 tracks/0/interp = 1
@@ -174,15 +95,15 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"times": PoolRealArray( 0, 0.12, 0.24, 0.36 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "Walk"
-length = 0.4
+[sub_resource type="Animation" id=3]
+resource_name = "Idle"
+length = 0.3
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:texture")
@@ -194,7 +115,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 5 ) ]
+"values": [ ExtResource( 1 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:hframes")
@@ -221,7 +142,89 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=11]
+resource_name = "Throw"
+length = 1.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 6 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 12 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "Walk"
+length = 0.35
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 2 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 8 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
+
+[sub_resource type="Animation" id=5]
 resource_name = "Hurt"
 length = 0.2
 tracks/0/type = "value"
@@ -234,10 +237,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 0.701961, 0.701961, 0.701961, 1 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 0.666667, 0.666667, 0.666667, 1 ), Color( 0.215686, 0.215686, 0.215686, 1 ), Color( 0.666667, 0.666667, 0.666667, 1 ) ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=6]
 resource_name = "Stun"
 length = 0.2
 loop = true
@@ -251,100 +254,89 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 0.909804, 0.92549, 0.439216, 1 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 0.666667, 0.666667, 0.666667, 1 ), Color( 0.415686, 0.427451, 0.0117647, 1 ), Color( 0.666667, 0.666667, 0.666667, 1 ) ]
 }
 
+[sub_resource type="CircleShape2D" id=7]
+radius = 27.4948
+
 [sub_resource type="CircleShape2D" id=8]
-radius = 20.19
+radius = 35.3327
 
 [sub_resource type="CircleShape2D" id=9]
-radius = 23.9468
+radius = 11.1498
 
-[sub_resource type="CapsuleShape2D" id=10]
-radius = 9.98779
-height = 18.0659
+[sub_resource type="CircleShape2D" id=10]
+radius = 17.7821
 
-[sub_resource type="CapsuleShape2D" id=11]
-radius = 14.3991
-height = 30.6809
-
-[sub_resource type="CapsuleShape2D" id=12]
-radius = 14.3991
-height = 30.6809
-
-[node name="Skeleton" type="KinematicBody2D" groups=[
-"Enemy",
-]]
-scale = Vector2( 1.95, 1.95 )
-collision_layer = 18
-collision_mask = 17
-collision/safe_margin = 0.01
-script = ExtResource( 4 )
+[node name="BossViridan" type="KinematicBody2D"]
+scale = Vector2( 1.8, 1.8 )
+collision_layer = 16
+collision_mask = 0
+script = ExtResource( 5 )
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 1 )
-hframes = 4
+modulate = Color( 0.666667, 0.666667, 0.666667, 1 )
+texture = ExtResource( 6 )
+hframes = 12
+frame = 10
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/Attack = SubResource( 1 )
 anims/Dead = SubResource( 2 )
 anims/Idle = SubResource( 3 )
-anims/Shield = SubResource( 4 )
-anims/Walk = SubResource( 5 )
+anims/Throw = SubResource( 11 )
+anims/Walk = SubResource( 4 )
 
 [node name="hurtPlayer" type="AnimationPlayer" parent="Sprite"]
-anims/Hurt = SubResource( 6 )
-anims/Stun = SubResource( 7 )
+anims/Hurt = SubResource( 5 )
+anims/Stun = SubResource( 6 )
 
 [node name="Detect Area" type="Area2D" parent="."]
-position = Vector2( -0.943878, 0 )
+position = Vector2( 4.66844, 14.592 )
 collision_layer = 0
 collision_mask = 36
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detect Area"]
-position = Vector2( 44.858, -3.93426 )
-shape = SubResource( 8 )
+position = Vector2( -0.536952, -9.6195 )
+shape = SubResource( 7 )
 
 [node name="Hit Area" type="Area2D" parent="."]
+position = Vector2( -5.98593, 4.18385 )
 collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hit Area"]
-position = Vector2( 47.3963, -4.29689 )
-shape = SubResource( 9 )
+position = Vector2( 4.61635, -5.00401 )
+shape = SubResource( 8 )
 disabled = true
 
 [node name="StunTimer" type="Timer" parent="."]
-wait_time = 3.0
-one_shot = true
-
-[node name="BlockTimer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 1.5
 one_shot = true
 
 [node name="Hitbox2" type="Area2D" parent="."]
+visible = false
 collision_layer = 8
 collision_mask = 4
 
 [node name="Hitbox" type="CollisionShape2D" parent="Hitbox2"]
-position = Vector2( 4.05041, -0.472917 )
-shape = SubResource( 10 )
+position = Vector2( 2.0861, 8.78739 )
+shape = SubResource( 9 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 4.71406, 1.81309 )
-shape = SubResource( 11 )
+visible = false
+position = Vector2( 0.78544, 9.67032 )
+shape = SubResource( 10 )
 
-[node name="IFF" type="Area2D" parent="."]
-collision_layer = 32
-collision_mask = 0
+[node name="ThrowTimer" type="Timer" parent="."]
+wait_time = 4.0
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="IFF"]
-position = Vector2( 4.71406, 1.81309 )
-scale = Vector2( 1, 1 )
-shape = SubResource( 12 )
+[node name="BStart" type="Position2D" parent="."]
+position = Vector2( 25.388, -1.66478 )
 
 [connection signal="animation_finished" from="Sprite/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_finished" from="Sprite/hurtPlayer" to="." method="_on_hurtPlayer_animation_finished"]
 [connection signal="area_entered" from="Hit Area" to="." method="_on_Hit_Area_area_entered"]
 [connection signal="timeout" from="StunTimer" to="." method="_on_StunTimer_timeout"]
-[connection signal="timeout" from="BlockTimer" to="." method="_on_BlockTimer_timeout"]
+[connection signal="timeout" from="ThrowTimer" to="." method="_on_ThrowTimer_timeout"]

@@ -69,7 +69,7 @@ func _physics_process(delta):
 		emit_signal("c_change", combo_points)
 		last_combo_points = combo_points
 	
-	if Input.is_action_pressed("Space") and not is_attacking and can_dash:
+	if Input.is_action_just_pressed("Space") and not is_attacking and can_dash:
 		set_collision_mask_bit(1, false)
 		set_collision_layer_bit(0, false)
 		set_collision_mask_bit(19, true)
@@ -193,11 +193,9 @@ func take_damage(damage):
 		hurtPlayer.play("Hurt")
 
 func die():
+	Global.lives -= 1
 	dead = true
 	animplayer.play("Dead")
-	if Global.lives > 0:
-		Global.lives -= 1
-		emit_signal("died")
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if "Attack" in anim_name:
@@ -205,6 +203,8 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "Attack2" and is_combo:
 		is_combo = false
 		animplayer.playback_speed = 1
+	if anim_name == "Dead":
+		emit_signal("died")
 
 func _on_DashTimer_timeout():
 	set_collision_mask_bit(19, false)
@@ -226,7 +226,9 @@ func _on_Attack_Area_area_entered(area):
 		body.take_damage(damage* 2 if attack_num == 1 else second_damage * 3, self)
 	else:
 		body.take_damage(damage if attack_num == 1 else second_damage, self)
-		if body.get("stunned") == false and body.get("dead") == false and not body.get("is_blocking"):
+		if body.get("stunned") == false:
+			if "Skeleton" in body.name and body.get("is_blocking"):
+				return
 			add_combo_points(1)
 
 func _on_ComboDecay_Timer_timeout():

@@ -1,13 +1,19 @@
 extends KinematicBody2D
 
+var rng = RandomNumberGenerator.new()
+
 onready var animplayer = $Sprite/AnimationPlayer
 onready var hurtPlayer = $Sprite/hurtPlayer
 onready var stunTimer = $StunTimer
+onready var hbox = $Hitbox2/Hitbox
+onready var tTimer = $ThrowTimer
 
-export var health = 150
+var bomb = load("res://Game/Enemies/EnemyProps/Bomb.tscn")
+
+export var health = 40
 export var damage = 40
 
-export var SPEED = 3
+export var SPEED = 6
 
 export var stunned = false
 var dead = false
@@ -16,38 +22,39 @@ var is_moving = false
 var left = false
 var right = false
 
-var heavy_progress = 0
-
 var is_attacking = false
+var is_throwing = false
 
 var i_counter = 0
 var max_i = 3
 
 var player = null
+var target = null
 var motion = Vector2()
-
-var stun1 = 0
-var stun2 = 0
 
 func _ready():
 	player = get_parent().get_node("Player")
+	SPEED = Global.rand_int(5, 7)
 	animplayer.play("Idle")
+	tTimer.start()
 
 func _physics_process(delta):
-	if dead or stunned:
+	target = player.position
+	
+	if dead or stunned or is_throwing:
 		return
 	
-	if heavy_progress == 3:
-		hurtPlayer.play("Heavy")
+	if target.x >= position.x:
+		target.x = target.x - ($CollisionShape2D.shape.radius * 2)
+	elif target.x < position.x:
+		target.x = target.x + ($CollisionShape2D.shape.radius * 2)
 	
 	if not is_attacking:
-		for areaInArea in $"DetectArea".get_overlapping_areas():
-			if areaInArea.get_parent().name == "Player" and heavy_progress != 3:
+		for areaInArea in $"Detect Area".get_overlapping_areas():
+			if areaInArea.get_parent().name == "Player":
 				is_attacking = true
 				animplayer.play("Attack")
-			else:
-				is_attacking = true
-				animplayer.play("Heavy Attack")
+				break
 	if is_attacking:
 		return
 	if is_moving:
@@ -55,69 +62,77 @@ func _physics_process(delta):
 	else:
 		animplayer.play("Idle")
 	
-	var target = player.position
-	
-	if target.x > position.x and not right:
+	if target.x >= position.x and not right:
 		right = true
 		left = false
 	elif target.x < position.x and not left:
 		left = true
 		right = false
 	
-	motion = (target - position).normalized() * SPEED
+	motion = position.direction_to(target) * SPEED
 	if right:
 		scale.x = scale.y
 	elif left:
 		scale.x = scale.y * -1 
 	
-	if (target - position).length() > 7:
-		is_moving = true
-		motion = move_and_collide(motion)
-
-func take_damage(damage):
-	heavy_progress += 1
+	is_moving = true
+	motion = move_and_collide(motion)
+		
+func take_damage(damage, body=null):
 	health -= damage
-	if stunned:
-		stun2 += damage
 	if health <= 0 and not dead:
 		die()
 	elif not dead and not stunned:
 		i_counter = 0
 		hurtPlayer.play("Hurt")
+		
 
 func stun():
 	if dead:
 		return
-	stun1 = health
 	animplayer.play("Idle")
 	hurtPlayer.play("Stun")
 	stunTimer.start()
 	stunned = true
+	
+func throw_bomb():
+	tTimer.wait_time = Global.rand_int(3, 5)
+	var drop = bomb.instance()
+	drop.position = position
+	get_parent().add_child(drop)
+	drop.throw()
+	
+func drop_bomb():
+	var drop = bomb.instance()
+	drop.position = position
+	get_parent().add_child(drop)
+	drop.start()
+	
 
 func die():
-	$Area2D.queue_free()
+	$CollisionShape2D.queue_free()
+	$Hitbox2.queue_free()
+	z_index = -1
 	animplayer.seek(0)
 	animplayer.stop()
 	dead = true
 	hurtPlayer.seek(0)
 	hurtPlayer.stop()
 	animplayer.play("Dead")
-
-func flip():
-	scale.x *= -1
+	drop_bomb()
 
 func _on_Hit_Area_area_entered(area):
+	if not is_attacking:
+		return
 	var body = area.get_parent()
 	body.take_damage(damage)
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if "Attack" in anim_name:
 		is_attacking = false
-	if anim_name == "Heavy Attack":
-		heavy_progress = 0
-		hurtPlayer.seek(0, true)
-		hurtPlayer.stop()
-
+	if anim_name == "Throw":
+		is_throwing = true
+		throw_bomb()
 
 func _on_hurtPlayer_animation_finished(anim_name):
 	if anim_name == "Hurt":
@@ -133,4 +148,8 @@ func _on_StunTimer_timeout():
 	is_attacking = false
 	hurtPlayer.seek(0, true)
 	hurtPlayer.stop()
+	
 
+func _on_ThrowTimer_timeout():
+	animplayer.play("Throw")
+	is_throwing = true
