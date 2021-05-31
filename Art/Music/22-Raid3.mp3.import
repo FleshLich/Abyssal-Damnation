@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/22-Raid3.mp3-b4538862831affd45c3bf58bb3f156c6.mp3str"
+
+[deps]
+
+source_file="res://Art/Music/22-Raid3.mp3"
+dest_files=[ "res://.import/22-Raid3.mp3-b4538862831affd45c3bf58bb3f156c6.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

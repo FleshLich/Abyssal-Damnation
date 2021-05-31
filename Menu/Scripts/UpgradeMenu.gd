@@ -15,7 +15,7 @@ func _process(delta):
 				2:
 					Global.modifiers[1] += 0.1
 				3:
-					Global.modifiers[2] += 10
+					Global.modifiers[2] += 5
 			Global.start_level()
 
 func _on_Button_mouse_entered():
@@ -25,7 +25,7 @@ func _on_Button2_mouse_entered():
 	$Label.text = "Increases the amount of time before a combo point decays by 0.1 seconds. Your current combo point decay time is: " + str(2 + Global.modifiers[1]) + " seconds"
 	
 func _on_Button3_mouse_entered():
-	$Label.text = "Increases damage by 10 points. Your current damage is: " + str(20 + Global.modifiers[2])
+	$Label.text = "Increases damage by 5 points. Your current damage is: " + str(20 + Global.modifiers[2])
 
 
 func _on_Button_pressed():

@@ -15,6 +15,7 @@ var last_point = null
 func _ready():
 	spawn_enemy()
 	spawn_enemy()
+	$AudioStreamPlayer.play()
 	player.connect("died", self, "_on_death")	
 
 func _physics_process(delta):
@@ -71,3 +72,9 @@ func _on_SpawnTimer_timeout():
 	var wait_max = 9 - (0.5 * Global.depth) if 9 - (0.5 * Global.depth) >= 3 else 3
 	sTimer.wait_time = Global.rand_int(wait_min, wait_max)
 
+
+func _on_AudioStreamPlayer_finished():
+	$AudioStreamPlayer.stop()
+	$AudioStreamPlayer.stream = load(Global.get_music())
+	$AudioStreamPlayer.seek(0)
+	$AudioStreamPlayer.play()

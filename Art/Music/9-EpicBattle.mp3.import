@@ -11,5 +11,5 @@ dest_files=[ "res://.import/9-EpicBattle.mp3-6846e72338d1769764f05e45790644c1.mp
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

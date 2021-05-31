@@ -11,5 +11,5 @@ dest_files=[ "res://.import/16-Havoc.mp3-2c08b3a8b45a336f73199e9daf4794ab.mp3str
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

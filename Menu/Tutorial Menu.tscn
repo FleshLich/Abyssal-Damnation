@@ -1373,7 +1373,7 @@ margin_top = 581.272
 margin_right = 521.203
 margin_bottom = 710.272
 custom_fonts/font = SubResource( 51 )
-text = "Pressing 'Q' when you have 5 combo points results in a super heavy attack. This attack does more damage than anything else, however it leaves you extremely vulnerable. Dashing does not interrupt this."
+text = "Pressing 'Q' when you have 5 combo points results in a super heavy attack. This attack does more damage than anything else, however it leaves you extremely vulnerable. Dashing cannot interrupt this."
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1405,7 +1405,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label11" type="Label" parent="."]
+[node name="GachiBass" type="Label" parent="."]
 margin_left = 1056.0
 margin_top = 480.0
 margin_right = 1256.0

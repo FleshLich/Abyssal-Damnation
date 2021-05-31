@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/21-Raid2.mp3-d952e999c1abf88fd3e4f62c18cb4146.mp3str"
+
+[deps]
+
+source_file="res://Art/Music/21-Raid2.mp3"
+dest_files=[ "res://.import/21-Raid2.mp3-d952e999c1abf88fd3e4f62c18cb4146.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

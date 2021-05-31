@@ -17,8 +17,9 @@ var last_point = null
 func _ready():
 	spawn_skeleton()
 	spawn_skeleton()
-	player.connect("died", self, "_on_death")	
-
+	$AudioStreamPlayer.play()
+	player.connect("died", self, "_on_death")
+	
 func _physics_process(delta):
 	if get_active_skeletons() <= 0 and num_skels <= 0:
 		Global.show_win()
@@ -66,3 +67,8 @@ func _on_SpawnTimer_timeout():
 	var wait_max = 4 - (0.5 * Global.depth) if 4 - (0.5 * Global.depth) >= 2 else 2
 	sTimer.wait_time = Global.rand_int(2, 4)
 
+func _on_AudioStreamPlayer_finished():
+	$AudioStreamPlayer.stop()
+	$AudioStreamPlayer.stream = load(Global.get_music())
+	$AudioStreamPlayer.seek(0)
+	$AudioStreamPlayer.play()

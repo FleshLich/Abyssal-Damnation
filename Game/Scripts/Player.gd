@@ -4,7 +4,7 @@ signal c_change(combo_points)
 signal died
 
 export var invincible = false
-export var health = 9999#1
+export var health = 1
 export var combo_points = 0
 export var max_combo_points = 5
 
@@ -15,7 +15,7 @@ export var attack_num = 0
 export var SPEED = 10
 export var DASH_SPEED = 30
 
-export var damage = 99999#20
+export var damage = 20
 export var second_damage = 25
 
 onready var animplayer = $Sprite/AnimationPlayer
@@ -59,6 +59,7 @@ func _ready():
 	$DashCooldown.wait_time = 1 + Global.modifiers[0]
 	$"ComboDecay Timer".wait_time = 2 + Global.modifiers[1]
 	damage += Global.modifiers[2]
+	second_damage += Global.modifiers[2]
 	
 func reset_state():
 	is_moving = false

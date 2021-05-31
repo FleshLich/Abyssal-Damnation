@@ -13,6 +13,8 @@ var Dead_scene = load("res://DeadScreen.tscn")
 var levels = []
 var level_started = false
 
+var music = []
+
 var has_played = false
 
 var music_times = [0, 0, 0, 0, 0]
@@ -25,12 +27,16 @@ var modifiers = [0, 0, 0]
 func level_init():
 	levels = ["res://Game/Levels/Viridan Level.tscn", "res://Game/Levels/SkeletonLevel.tscn", "res://Game/Levels/Phalloid Level.tscn"]
 	
+func music_init():
+	music = ["res://Art/Music/5-BattleField5.mp3", "res://Art/Music/11-Fight2.mp3", "res://Art/Music/22-Raid3.mp3", "res://Art/Music/21-Raid2.mp3"]
+	
 func init():
 	level_started = false
 	depth = 0
 	lives = 5
 	modifiers = [0, 0, 0]
 	level_init()
+	music_init()
 	
 	var data = File.new()
 	if data.file_exists("user://data.save"):
@@ -101,3 +107,12 @@ func start_level(level_name=""):
 	var level = levels[level_num] if level_name == "" else level_name
 	levels.remove(level_num)
 	get_tree().change_scene(level)
+	
+func get_music():
+	if music.size() == 0:
+		music_init()
+	var choice = rand_range(0, music.size() - 1)
+	var track = music[choice]
+	music.remove(choice)
+	return track
+	

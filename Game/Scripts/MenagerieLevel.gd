@@ -12,7 +12,7 @@ onready var player = $Player
 onready var sTimer = $SpawnTimer
 
 var num_enems = Global.rand_int(12 + (4 * Global.depth), 15 + (4 * Global.depth))
-var max_enems = 7 + (2 * Global.depth)
+var max_enems = 5 + (2 * Global.depth)
 #S, V, P
 var enemy_count = [0, 0, 0]
 var max_count = [4 + (2 * Global.depth), 7 + (2 * Global.depth), 2 + (2 * Global.depth)]
@@ -24,10 +24,14 @@ var last_point = null
 func _ready():
 	spawn_enemy()
 	spawn_enemy()
+	$AudioStreamPlayer.play()
 	sTimer.wait_time = 3 - (0.5 * Global.depth) if 3 - (0.5 * Global.depth) >= 1 else 1
 	player.connect("died", self, "_on_death")	
 
 func _physics_process(delta):
+	print("E : " + str(get_active_enemies()))
+	print("EC : " + str(enemy_count))
+	print("EB : " + str(enemyB_count))
 	if get_active_enemies() <= 0 and num_enems <= 0:
 		Global.show_win()
 	if Global.debug and Input.is_action_just_pressed("Reload"):
@@ -121,3 +125,8 @@ func _on_SpawnTimer_timeout():
 		spawn_enemy() if Global.rand_int(0, 100) < 75 else spawn_boss()
 	
 
+func _on_AudioStreamPlayer_finished():
+	$AudioStreamPlayer.stop()
+	$AudioStreamPlayer.stream = load(Global.get_music())
+	$AudioStreamPlayer.seek(0)
+	$AudioStreamPlayer.play()

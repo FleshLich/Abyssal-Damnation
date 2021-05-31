@@ -11,5 +11,5 @@ dest_files=[ "res://.import/15-Gothic_Dark.mp3-57c262573d3a61a19e0826da29d3afb3.
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
