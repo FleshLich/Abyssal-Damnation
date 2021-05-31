@@ -9,10 +9,8 @@ func _ready():
 	Global.init()
 	if Global.has_played:
 		$CenterContainer5/TutorialButton.show()
-		$CenterContainer4/QPlayButton.show()
 	else:
 		$CenterContainer5/TutorialButton.hide()
-		$CenterContainer4/QPlayButton.hide()
 	print(get_tree().get_root().get_children())
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -26,6 +24,7 @@ func _on_PlayButton_pressed():
 	get_parent().get_node("Fade").get_node("AnimationPlayer").play("FadeOut")
 	
 func _on_QPlayButton_pressed():
+	Global.has_played = true
 	Global.change_scene("res://Game/TutorialScene.tscn")
 	
 func _on_TutorialButton_pressed():

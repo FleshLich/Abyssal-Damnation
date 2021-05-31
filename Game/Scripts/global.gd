@@ -15,6 +15,8 @@ var level_started = false
 
 var music = []
 
+var testing = false
+
 var has_played = false
 
 var music_times = [0, 0, 0, 0, 0]

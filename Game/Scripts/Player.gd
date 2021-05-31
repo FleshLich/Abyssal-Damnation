@@ -216,7 +216,7 @@ func slow():
 
 func die():
 	reset_state()
-	Global.lives -= 1
+	if not Global.testing: Global.lives -= 1
 	dead = true
 	animplayer.play("Dead")
 
