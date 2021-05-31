@@ -117,6 +117,7 @@ func take_damage(damage, body=null):
 func stun():
 	if dead:
 		return
+	is_attacking = false
 	animplayer.play("Idle")
 	hurtPlayer.play("Stun")
 	stunTimer.start()
