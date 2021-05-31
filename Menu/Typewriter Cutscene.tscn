@@ -364,7 +364,7 @@ anims/Text8 = SubResource( 15 )
 anims/Text9 = SubResource( 16 )
 
 [node name="TextTimer" type="Timer" parent="Label"]
-wait_time = 0.03
+wait_time = 0.05
 autostart = true
 
 [connection signal="animation_finished" from="Label/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

@@ -13,6 +13,8 @@ var Dead_scene = load("res://DeadScreen.tscn")
 var levels = []
 var level_started = false
 
+var has_played = false
+
 var depth = 0
 var lives = 0
 #Dash cool down, Combo point decay, damage
@@ -24,6 +26,12 @@ func init():
 	lives = 5
 	modifiers = [0, 0, 0]
 	levels = ["res://Game/Levels/Viridan Level.tscn", "res://Game/Levels/SkeletonLevel.tscn"]
+	
+	var data = File.new()
+	if data.file_exists("user://data.save"):
+		data.open("user://data.save", File.READ)
+		if data.get_line() == "1":
+			has_played = true
 
 func _ready():
 	rng.randomize()
@@ -39,6 +47,13 @@ func get_lost_life_text():
 func change_scene(scene):
 	current_scene = scene
 	get_tree().change_scene(scene)
+	
+func set_play():
+	var data = File.new()
+	data.open("user://ABdata.save", File.WRITE)
+	data.store_line(str(1))
+	data.close()
+	has_played = true
 	
 func show_win():
 	var win_titles = ["Not this time", "You have survived", "The void stays hungry today", "Well done"]
