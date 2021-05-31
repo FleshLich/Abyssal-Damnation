@@ -2,7 +2,7 @@ extends Node
 
 var rng = RandomNumberGenerator.new()
 
-var debug = true
+var debug = false
 
 var current_scene = null
 var life_lost_scene = load("res://LifeLost.tscn")
