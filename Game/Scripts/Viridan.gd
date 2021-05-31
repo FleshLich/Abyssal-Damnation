@@ -74,7 +74,7 @@ func _physics_process(delta):
 	elif left:
 		scale.x = scale.y * -1 
 	
-	if position.distance_to(target) > 5:
+	if position.distance_to(target) > 4:
 		is_moving = true
 		motion = move_and_slide(motion / delta)
 		
