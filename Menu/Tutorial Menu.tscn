@@ -1325,7 +1325,7 @@ margin_top = 267.881
 margin_right = 521.203
 margin_bottom = 392.881
 custom_fonts/font = SubResource( 51 )
-text = "Press space to dash. Dashing makes you move quickly towards the last direction you moved. You are invulnerable while dashing. Dashing has a 2 second cooldown."
+text = "Press space to dash. Dashing makes you move quickly towards the last direction you moved. You are invulnerable while dashing. Dashing has a 2 second cooldown. Dashing will interrupt any action you are performing"
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1361,7 +1361,7 @@ margin_top = 433.875
 margin_right = 986.114
 margin_bottom = 562.875
 custom_fonts/font = SubResource( 51 )
-text = "Pressing 'E' when you have 5 combo points will stun all enemies on screen for three seconds. You do not generate combo points when attacking stunned enemies"
+text = "Pressing 'E' when you have 5 combo points will stun all enemies on screen for a certain amount of seconds dependant on the enemy. You do not generate combo points when attacking stunned enemies"
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1369,11 +1369,11 @@ __meta__ = {
 
 [node name="Label8" type="Label" parent="."]
 margin_left = 219.203
-margin_top = 603.964
+margin_top = 581.272
 margin_right = 521.203
-margin_bottom = 732.964
+margin_bottom = 710.272
 custom_fonts/font = SubResource( 51 )
-text = "Pressing 'Q' when you have 5 combo points results in a super heavy attack. This attack does more damage than anything else, however it leaves you extremely vulnerable."
+text = "Pressing 'Q' when you have 5 combo points results in a super heavy attack. This attack does more damage than anything else, however it leaves you extremely vulnerable. Dashing does not interrupt this."
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1392,13 +1392,28 @@ __meta__ = {
 }
 
 [node name="Label10" type="Label" parent="."]
-margin_left = 1098.78
-margin_top = 533.945
-margin_right = 1211.78
-margin_bottom = 583.945
+margin_left = 1096.0
+margin_top = 584.0
+margin_right = 1209.0
+margin_bottom = 634.0
 custom_fonts/font = SubResource( 51 )
 custom_colors/font_color = Color( 0.152941, 0.729412, 0.270588, 1 )
 text = "Press space to continue"
+align = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label11" type="Label" parent="."]
+margin_left = 1056.0
+margin_top = 480.0
+margin_right = 1256.0
+margin_bottom = 530.0
+custom_fonts/font = SubResource( 51 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "The deeper you go, the harder it gets"
+align = 1
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false

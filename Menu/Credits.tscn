@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Art/Fonts/m5x7.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Art/MainTheme.tres" type="Theme" id=2]
@@ -8,9 +8,31 @@
 size = 30
 font_data = ExtResource( 1 )
 
+[sub_resource type="DynamicFont" id=2]
+size = 32
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "Credits"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 10 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 345.587, 720 ), Vector2( 345.587, -800 ) ]
+}
+
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -1.5874
+margin_right = -1.5874
 theme = ExtResource( 2 )
 script = ExtResource( 3 )
 __meta__ = {
@@ -18,18 +40,23 @@ __meta__ = {
 }
 
 [node name="CenterContainer2" type="CenterContainer" parent="."]
-anchor_top = 0.967
+anchor_left = 0.79
+anchor_top = 0.479
 anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -0.240051
+anchor_bottom = 0.521
+margin_left = -0.200012
+margin_top = 0.119965
+margin_right = 1.0
+margin_bottom = -0.120026
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="CenterContainer2"]
-margin_left = 537.0
-margin_right = 742.0
-margin_bottom = 24.0
+margin_left = 32.0
+margin_top = 3.0
+margin_right = 237.0
+margin_bottom = 27.0
 custom_fonts/font = SubResource( 1 )
 text = "Right click to go back"
 
@@ -48,3 +75,49 @@ margin_right = 674.0
 margin_bottom = 24.0
 custom_fonts/font = SubResource( 1 )
 text = "Credits"
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.277
+anchor_top = 0.178
+anchor_right = 0.726
+anchor_bottom = 1.0
+margin_left = -8.97299
+margin_top = -928.16
+margin_right = -7.69299
+margin_bottom = -739.999
+custom_fonts/font = SubResource( 2 )
+text = "Programming, Writing, Design, QA:
+FleshLich
+
+Intro Music(CC0 License):
+N.91music
+https://n91.itch.io/horror-sounds-vol-1
+
+Font(CC0 License):
+Daniel Linssen
+https://managore.itch.io/m5x7
+
+Monster Sprites(CC0 License):
+LuizMelo
+https://luizmelo.itch.io/monsters-creatures-fantasy
+
+Character Sprites(CC0 License):
+Clembod
+https://clembod.itch.io/warrior-free-animation-set
+
+Floor Tileset:
+Natan Costa
+https://natancosta.itch.io/modicus-dungeon
+
+Battle Music:
+Peritune
+https://peritune.itch.io/battle-tracks-jrpg-battle-music-collection"
+align = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Label"]
+autoplay = "Credits"
+anims/Credits = SubResource( 3 )

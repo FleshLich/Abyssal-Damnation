@@ -352,7 +352,7 @@ height = 11.1596
 radius = 12.2405
 height = 19.2079
 
-[node name="PhalloidBoss" type="KinematicBody2D" groups=[
+[node name="BossPhalloid" type="KinematicBody2D" groups=[
 "Enemy",
 ]]
 modulate = Color( 0.713726, 0.713726, 0.713726, 1 )
@@ -409,7 +409,6 @@ shape = SubResource( 11 )
 disabled = true
 
 [node name="StunTimer" type="Timer" parent="."]
-wait_time = 1.5
 one_shot = true
 
 [node name="Hitbox2" type="Area2D" parent="."]

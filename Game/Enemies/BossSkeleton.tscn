@@ -288,7 +288,7 @@ height = 30.6809
 radius = 14.3991
 height = 30.6809
 
-[node name="Skeleton" type="KinematicBody2D" groups=[
+[node name="BossSkeleton" type="KinematicBody2D" groups=[
 "Enemy",
 ]]
 scale = Vector2( 2.2, 2.2 )

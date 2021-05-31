@@ -7,8 +7,8 @@ onready var miniboss = load("res://Game/Enemies/BossViridan.tscn")
 onready var player = $Player
 onready var sTimer = $SpawnTimer
 
-var num_enems = Global.rand_int(10, 15)
-var max_enems = 5
+var num_enems = Global.rand_int(10 + (4 * Global.depth), 15)
+var max_enems = 5 + (3 * Global.depth)
 
 var finished = false
 

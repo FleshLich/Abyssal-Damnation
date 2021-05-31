@@ -7,8 +7,8 @@ onready var miniboss = load("res://Game/Enemies/BossSkeleton.tscn")
 onready var player = $Player
 onready var sTimer = $SpawnTimer
 
-var num_skels = Global.rand_int(5, 7)
-var max_skels = 3
+var num_skels = Global.rand_int(5 + (2 * Global.depth), 7 + (2 * Global.depth))
+var max_skels = 3 + (1 * Global.depth)
 
 var finished = false
 
@@ -62,5 +62,7 @@ func _on_SpawnTimer_timeout():
 	if num >= max_skels:
 		return
 	spawn_skeleton()
-	sTimer.wait_time = Global.rand_int(2 * num, 4 * num)
+	var wait_min = 2 - (0.5 * Global.depth) if 2 - (0.5 * Global.depth) >= 1 else 1
+	var wait_max = 4 - (0.5 * Global.depth) if 4 - (0.5 * Global.depth) >= 2 else 2
+	sTimer.wait_time = Global.rand_int(2, 4)
 

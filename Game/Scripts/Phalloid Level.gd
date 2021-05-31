@@ -7,10 +7,8 @@ onready var miniboss = load("res://Game/Enemies/BossPhalloid.tscn")
 onready var player = $Player
 onready var sTimer = $SpawnTimer
 
-var num_enems = Global.rand_int(6, 9)
-var max_enems = 4
-
-var finished = false
+var num_enems = Global.rand_int(6 + (3 * Global.depth), 9 + 6 + (3 * Global.depth))
+var max_enems = 4 + (2 * Global.depth)
 
 var last_point = null
 
@@ -69,5 +67,7 @@ func _on_SpawnTimer_timeout():
 		spawn_enemy()
 	else:
 		spawn_enemy()
-	sTimer.wait_time = Global.rand_int(6, 9)
+	var wait_min = 6 - (0.5 * Global.depth) if 6 - (0.5 * Global.depth) >= 2 else 2
+	var wait_max = 9 - (0.5 * Global.depth) if 9 - (0.5 * Global.depth) >= 3 else 3
+	sTimer.wait_time = Global.rand_int(wait_min, wait_max)
 

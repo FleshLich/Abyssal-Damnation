@@ -94,8 +94,9 @@ func do_upgrade():
 func start_level(level_name=""):
 	if levels.size() == 0:
 		level_init()
+		level_name = "res://Game/Levels/MenagerieLevel.tscn"
+		depth += 1
 	level_started = false
-	depth += 1
 	var level_num = rand_int(0, levels.size() - 1)
 	var level = levels[level_num] if level_name == "" else level_name
 	levels.remove(level_num)
