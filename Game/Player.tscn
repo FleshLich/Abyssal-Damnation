@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Art/Warrior_Sheet-Effect.png" type="Texture" id=1]
 [ext_resource path="res://Game/Scripts/Player.gd" type="Script" id=2]
@@ -164,6 +164,23 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 0.588235, 0.588235, 0.588235, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
+[sub_resource type="Animation" id=12]
+resource_name = "Slowed"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.611765, 0.396078, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
 [sub_resource type="Animation" id=8]
 resource_name = "Stun"
 length = 0.2
@@ -217,6 +234,7 @@ anims/Run = SubResource( 6 )
 
 [node name="HurtPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/Hurt = SubResource( 7 )
+anims/Slowed = SubResource( 12 )
 anims/Stun = SubResource( 8 )
 
 [node name="DashTimer" type="Timer" parent="."]
@@ -263,6 +281,10 @@ collision_mask = 8
 position = Vector2( -6.9431, -1.74551 )
 shape = SubResource( 11 )
 
+[node name="SlowTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
 [connection signal="c_change" from="." to="ComboPoints" method="_on_Player_c_change"]
 [connection signal="animation_finished" from="Sprite/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_finished" from="Sprite/HurtPlayer" to="." method="_on_HurtPlayer_animation_finished"]
@@ -272,3 +294,4 @@ shape = SubResource( 11 )
 [connection signal="timeout" from="ComboDecay Timer" to="." method="_on_ComboDecay_Timer_timeout"]
 [connection signal="timeout" from="InvincibleTimer" to="." method="_on_InvincibleTimer_timeout"]
 [connection signal="timeout" from="StunTimer" to="." method="_on_StunTimer_timeout"]
+[connection signal="timeout" from="SlowTimer" to="." method="_on_SlowTimer_timeout"]

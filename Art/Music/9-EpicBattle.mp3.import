@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/9-EpicBattle.mp3-6846e72338d1769764f05e45790644c1.mp3str"
+
+[deps]
+
+source_file="res://Art/Music/9-EpicBattle.mp3"
+dest_files=[ "res://.import/9-EpicBattle.mp3-6846e72338d1769764f05e45790644c1.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

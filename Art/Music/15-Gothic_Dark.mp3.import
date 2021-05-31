@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/15-Gothic_Dark.mp3-57c262573d3a61a19e0826da29d3afb3.mp3str"
+
+[deps]
+
+source_file="res://Art/Music/15-Gothic_Dark.mp3"
+dest_files=[ "res://.import/15-Gothic_Dark.mp3-57c262573d3a61a19e0826da29d3afb3.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -15,23 +15,30 @@ var level_started = false
 
 var has_played = false
 
+var music_times = [0, 0, 0, 0, 0]
+
 var depth = 0
 var lives = 0
 #Dash cool down, Combo point decay, damage
 var modifiers = [0, 0, 0]
 
+func level_init():
+	levels = ["res://Game/Levels/Viridan Level.tscn", "res://Game/Levels/SkeletonLevel.tscn", "res://Game/Levels/Phalloid Level.tscn"]
+	
 func init():
 	level_started = false
 	depth = 0
 	lives = 5
 	modifiers = [0, 0, 0]
-	levels = ["res://Game/Levels/Viridan Level.tscn", "res://Game/Levels/SkeletonLevel.tscn"]
+	level_init()
 	
 	var data = File.new()
 	if data.file_exists("user://data.save"):
 		data.open("user://data.save", File.READ)
+		print(data.get_line())
 		if data.get_line() == "1":
 			has_played = true
+		data.close()
 
 func _ready():
 	rng.randomize()
@@ -52,6 +59,7 @@ func set_play():
 	var data = File.new()
 	data.open("user://ABdata.save", File.WRITE)
 	data.store_line(str(1))
+	print(data)
 	data.close()
 	has_played = true
 	
@@ -84,7 +92,11 @@ func do_upgrade():
 	change_scene("res://Menu/UpgradeMenu.tscn")
 	
 func start_level(level_name=""):
-	var level_started = false
+	if levels.size() == 0:
+		level_init()
+	level_started = false
 	depth += 1
-	var level = levels[rand_int(0, levels.size() - 1)] if level_name == "" else level_name
+	var level_num = rand_int(0, levels.size() - 1)
+	var level = levels[level_num] if level_name == "" else level_name
+	levels.remove(level_num)
 	get_tree().change_scene(level)

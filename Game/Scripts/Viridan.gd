@@ -10,7 +10,7 @@ onready var hbox = $Hitbox2/Hitbox
 var bomb = load("res://Game/Enemies/EnemyProps/Bomb.tscn")
 
 export var health = 5
-export var damage = 40
+export var damage = 2
 
 export var SPEED = 6
 

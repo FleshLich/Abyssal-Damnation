@@ -6,7 +6,7 @@
 [ext_resource path="res://Art/Enemies/Viridan/Attack.png" type="Texture" id=4]
 [ext_resource path="res://Game/Scripts/Viridan.gd" type="Script" id=5]
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=1]
 resource_name = "Attack"
 length = 0.6
 step = 0.08
@@ -59,7 +59,7 @@ tracks/3/keys = {
 "values": [ true, false, true ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=2]
 resource_name = "Dead"
 length = 0.4
 step = 0.12
@@ -100,7 +100,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=3]
 resource_name = "Idle"
 length = 0.3
 loop = true
@@ -141,7 +141,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=4]
 resource_name = "Walk"
 length = 0.35
 loop = true
@@ -183,7 +183,7 @@ tracks/2/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 resource_name = "Hurt"
 length = 0.2
 tracks/0/type = "value"
@@ -199,7 +199,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 0.701961, 0.701961, 0.701961, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=6]
 resource_name = "Stun"
 length = 0.2
 loop = true
@@ -216,16 +216,16 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 0.72549, 0.745098, 0.0666667, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="CircleShape2D" id=8]
+[sub_resource type="CircleShape2D" id=7]
 radius = 27.4948
 
-[sub_resource type="CircleShape2D" id=9]
+[sub_resource type="CircleShape2D" id=8]
 radius = 35.3327
 
-[sub_resource type="CircleShape2D" id=17]
+[sub_resource type="CircleShape2D" id=9]
 radius = 11.1498
 
-[sub_resource type="CircleShape2D" id=18]
+[sub_resource type="CircleShape2D" id=10]
 radius = 17.7821
 
 [node name="Viridan" type="KinematicBody2D" groups=[
@@ -242,14 +242,14 @@ hframes = 4
 frame = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
-anims/Attack = SubResource( 14 )
-anims/Dead = SubResource( 16 )
-anims/Idle = SubResource( 13 )
-anims/Walk = SubResource( 15 )
+anims/Attack = SubResource( 1 )
+anims/Dead = SubResource( 2 )
+anims/Idle = SubResource( 3 )
+anims/Walk = SubResource( 4 )
 
 [node name="hurtPlayer" type="AnimationPlayer" parent="Sprite"]
-anims/Hurt = SubResource( 6 )
-anims/Stun = SubResource( 7 )
+anims/Hurt = SubResource( 5 )
+anims/Stun = SubResource( 6 )
 
 [node name="Detect Area" type="Area2D" parent="."]
 position = Vector2( 4.66844, 14.592 )
@@ -258,7 +258,7 @@ collision_mask = 36
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detect Area"]
 position = Vector2( -0.536952, -9.6195 )
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="Hit Area" type="Area2D" parent="."]
 position = Vector2( -5.98593, 4.18385 )
@@ -267,7 +267,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hit Area"]
 position = Vector2( 4.61635, -5.00401 )
-shape = SubResource( 9 )
+shape = SubResource( 8 )
 disabled = true
 
 [node name="StunTimer" type="Timer" parent="."]
@@ -281,12 +281,12 @@ collision_mask = 4
 
 [node name="Hitbox" type="CollisionShape2D" parent="Hitbox2"]
 position = Vector2( 2.0861, 8.78739 )
-shape = SubResource( 17 )
+shape = SubResource( 9 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2( 0.78544, 9.67032 )
-shape = SubResource( 18 )
+shape = SubResource( 10 )
 
 [connection signal="animation_finished" from="Sprite/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_finished" from="Sprite/hurtPlayer" to="." method="_on_hurtPlayer_animation_finished"]

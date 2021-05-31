@@ -7,8 +7,8 @@ onready var miniboss = load("res://Game/Enemies/BossSkeleton.tscn")
 onready var player = $Player
 onready var sTimer = $SpawnTimer
 
-var num_skels = 1#Global.rand_int(5, 7)
-var max_skels = 4
+var num_skels = Global.rand_int(5, 7)
+var max_skels = 3
 
 var finished = false
 

@@ -237,7 +237,7 @@ tracks/0/keys = {
 "values": [ Color( 0.701961, 0.701961, 0.701961, 1 ), Color( 0.509804, 0.509804, 0.509804, 1 ), Color( 0.701961, 0.701961, 0.701961, 1 ) ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=7]
 resource_name = "Parry"
 length = 0.2
 loop = true
@@ -254,8 +254,7 @@ tracks/0/keys = {
 "values": [ Color( 0.701961, 0.701961, 0.701961, 1 ), Color( 0.133333, 0.960784, 1, 1 ), Color( 0.701961, 0.701961, 0.701961, 1 ) ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "Stun"
+[sub_resource type="Animation" id=8]
 length = 0.2
 loop = true
 tracks/0/type = "value"
@@ -271,17 +270,17 @@ tracks/0/keys = {
 "values": [ Color( 0.701961, 0.701961, 0.701961, 1 ), Color( 0.909804, 0.92549, 0.439216, 1 ), Color( 0.701961, 0.701961, 0.701961, 1 ) ]
 }
 
-[sub_resource type="CircleShape2D" id=8]
+[sub_resource type="CircleShape2D" id=9]
 radius = 20.19
 
-[sub_resource type="CircleShape2D" id=9]
+[sub_resource type="CircleShape2D" id=10]
 radius = 23.9468
 
-[sub_resource type="CapsuleShape2D" id=10]
+[sub_resource type="CapsuleShape2D" id=11]
 radius = 9.98779
 height = 18.0659
 
-[sub_resource type="CapsuleShape2D" id=11]
+[sub_resource type="CapsuleShape2D" id=12]
 radius = 14.3991
 height = 30.6809
 
@@ -312,8 +311,8 @@ anims/Walk = SubResource( 5 )
 
 [node name="hurtPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/Hurt = SubResource( 6 )
-anims/Parry = SubResource( 12 )
-anims/Stun = SubResource( 7 )
+anims/Parry = SubResource( 7 )
+anims/Stun = SubResource( 8 )
 
 [node name="Detect Area" type="Area2D" parent="."]
 position = Vector2( -0.943878, 0 )
@@ -322,7 +321,7 @@ collision_mask = 36
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detect Area"]
 position = Vector2( 44.858, -3.93426 )
-shape = SubResource( 8 )
+shape = SubResource( 9 )
 
 [node name="Hit Area" type="Area2D" parent="."]
 collision_layer = 0
@@ -330,7 +329,7 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hit Area"]
 position = Vector2( 47.3963, -4.29689 )
-shape = SubResource( 9 )
+shape = SubResource( 10 )
 disabled = true
 
 [node name="StunTimer" type="Timer" parent="."]
@@ -348,11 +347,11 @@ collision_mask = 4
 
 [node name="Hitbox" type="CollisionShape2D" parent="Hitbox2"]
 position = Vector2( 4.05041, -0.472917 )
-shape = SubResource( 10 )
+shape = SubResource( 11 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 4.71406, 1.81309 )
-shape = SubResource( 11 )
+shape = SubResource( 12 )
 
 [node name="IFF" type="Area2D" parent="."]
 collision_layer = 32

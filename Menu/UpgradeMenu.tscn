@@ -5,19 +5,19 @@
 [ext_resource path="res://Menu/Scripts/UpgradeMenu.gd" type="Script" id=3]
 [ext_resource path="res://Menu/BasicButton.tres" type="StyleBox" id=4]
 
-[sub_resource type="DynamicFont" id=3]
-size = 32
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=5]
-size = 32
-font_data = ExtResource( 2 )
-
 [sub_resource type="DynamicFont" id=1]
-size = 64
+size = 32
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=2]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 64
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
 size = 32
 font_data = ExtResource( 2 )
 
@@ -49,7 +49,7 @@ margin_bottom = 151.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 custom_styles/hover = ExtResource( 4 )
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 1 )
 text = "Dash Cooldown"
 
 [node name="Button2" type="Button" parent="HBoxContainer"]
@@ -59,7 +59,7 @@ margin_bottom = 151.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 custom_styles/hover = ExtResource( 4 )
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 2 )
 text = "Combo Point Decay"
 
 [node name="Button3" type="Button" parent="HBoxContainer"]
@@ -69,7 +69,7 @@ margin_bottom = 151.0
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 custom_styles/hover = ExtResource( 4 )
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 1 )
 text = "Damage"
 
 [node name="Title" type="Label" parent="."]
@@ -78,7 +78,7 @@ anchor_right = 0.5
 margin_left = -94.0
 margin_right = 94.0
 margin_bottom = 51.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "Upgrades"
 align = 1
 __meta__ = {
@@ -93,7 +93,7 @@ anchor_bottom = 0.533
 margin_top = -0.23999
 margin_right = -6.10352e-05
 margin_bottom = 3.23996
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 4 )
 align = 1
 autowrap = true
 __meta__ = {
@@ -108,7 +108,7 @@ anchor_bottom = 0.677445
 margin_top = -0.23999
 margin_right = -6.10352e-05
 margin_bottom = 3.23996
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 4 )
 text = "Press space to continue"
 align = 1
 autowrap = true

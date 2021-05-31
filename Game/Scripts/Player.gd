@@ -4,8 +4,7 @@ signal c_change(combo_points)
 signal died
 
 export var invincible = false
-export var health = 1
-export var max_health = 1
+export var health = 9999#1
 export var combo_points = 0
 export var max_combo_points = 5
 
@@ -16,7 +15,7 @@ export var attack_num = 0
 export var SPEED = 10
 export var DASH_SPEED = 30
 
-export var damage = 20
+export var damage = 99999#20
 export var second_damage = 25
 
 onready var animplayer = $Sprite/AnimationPlayer
@@ -38,10 +37,15 @@ var is_combo = false
 var can_dash = false
 var is_dashing = false
 
+var pushed = null
+var is_pushing = false
+
 var stunned = false
 
 var i_counter = 0
 var max_i = 3
+
+var target
 
 export var dead = false
 
@@ -52,7 +56,7 @@ func _ready():
 	$"Attack Area/Attack Hitbox".disabled = true
 	can_dash = true
 	
-	$DashCooldown.wait_time = 1 - Global.modifiers[0]
+	$DashCooldown.wait_time = 1 + Global.modifiers[0]
 	$"ComboDecay Timer".wait_time = 2 + Global.modifiers[1]
 	damage += Global.modifiers[2]
 	
@@ -146,7 +150,6 @@ func _physics_process(delta):
 		animplayer.play("Idle")
 		
 	
-	
 	if not is_dashing:
 		motion = motion.normalized() * SPEED
 	else:
@@ -200,6 +203,15 @@ func take_damage(damage):
 		die()
 	elif not dead:
 		hurtPlayer.play("Hurt")
+		
+func knockback(body):
+	pushed = body
+	
+func slow():
+	hurtPlayer.play("Slowed")
+	SPEED = 5
+	DASH_SPEED = 15
+	$SlowTimer.start()
 
 func die():
 	reset_state()
@@ -268,3 +280,8 @@ func _on_StunTimer_timeout():
 	hurtPlayer.seek(0, true)
 	hurtPlayer.stop()
 
+func _on_SlowTimer_timeout():
+	SPEED = 10
+	DASH_SPEED = 30
+	hurtPlayer.seek(0, true)
+	hurtPlayer.stop()

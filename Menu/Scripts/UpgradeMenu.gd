@@ -19,7 +19,7 @@ func _process(delta):
 			Global.start_level()
 
 func _on_Button_mouse_entered():
-	$Label.text = "Decreases the time it takes before you can dash again by 0.05 seconds. Your current dash cooldown is: " + str(1 - Global.modifiers[0]) + " seconds"
+	$Label.text = "Decreases the time it takes before you can dash again by 0.05 seconds. Your current dash cooldown is: " + str(1 + Global.modifiers[0]) + " seconds"
 	
 func _on_Button2_mouse_entered():
 	$Label.text = "Increases the amount of time before a combo point decays by 0.1 seconds. Your current combo point decay time is: " + str(2 + Global.modifiers[1]) + " seconds"

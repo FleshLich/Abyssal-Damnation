@@ -11,7 +11,7 @@ onready var tTimer = $ThrowTimer
 var bomb = load("res://Game/Enemies/EnemyProps/Bomb.tscn")
 
 export var health = 30
-export var damage = 40
+export var damage = 2
 
 export var SPEED = 6
 
@@ -86,7 +86,7 @@ func _physics_process(delta):
 		scale.x = scale.y * -1 
 	
 	is_moving = true
-	motion = move_and_slide_with_snap(motion / delta, Vector2(0.1,0.1))
+	motion = move_and_slide(motion / delta)
 		
 func take_damage(damage, body=null):
 	if Global.rand_int(0, 100) < 41 and not is_throwing and not stunned:
@@ -148,9 +148,11 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 		animplayer.playback_speed = 1
 	if anim_name == "Throw":
 		is_throwing = false
+		reset_state()
 		throw_bomb()
 	elif anim_name == "Dodge":
 		is_dodging = false
+		reset_state()
 		$AttackTimer.start()
 
 func _on_hurtPlayer_animation_finished(anim_name):

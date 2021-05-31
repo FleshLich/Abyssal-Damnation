@@ -9,7 +9,7 @@ onready var blockTimer = $BlockTimer
 onready var hbox = $Hitbox2/Hitbox
 
 export var health = 100
-export var damage = 40
+export var damage = 2
 
 export var SPEED = 2
 

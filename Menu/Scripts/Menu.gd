@@ -4,6 +4,8 @@ extends VBoxContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if Global.debug:
+		Global.set_play()
 	Global.init()
 	if Global.has_played:
 		$CenterContainer5/TutorialButton.show()
@@ -11,14 +13,13 @@ func _ready():
 	else:
 		$CenterContainer5/TutorialButton.hide()
 		$CenterContainer4/QPlayButton.hide()
-	Global.set_play()
 	print(get_tree().get_root().get_children())
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if Input.is_action_pressed("Test"):
+	if Input.is_action_pressed("Test") and Global.debug:
 		#Global.start_level()
-		Global.change_scene("res://Menu/UpgradeMenu.tscn")
+		Global.change_scene("res://Game/Levels/Viridan Level.tscn")
 	
 
 func _on_PlayButton_pressed():
