@@ -52,6 +52,10 @@ func _ready():
 	$"Attack Area/Attack Hitbox".disabled = true
 	can_dash = true
 	
+	$DashCooldown.wait_time = 1 - Global.modifiers[0]
+	$"ComboDecay Timer".wait_time = 2 + Global.modifiers[1]
+	damage += Global.modifiers[2]
+	
 func reset_state():
 	is_moving = false
 	is_dashing = false
@@ -184,7 +188,7 @@ func set_invincible():
 	
 
 func take_damage(damage):
-	if invincible:
+	if invincible or is_dashing:
 		return
 	if i_counter > 0:
 		return

@@ -14,14 +14,14 @@ var levels = []
 var level_started = false
 
 var depth = 0
-var lives = -1
-#Health, dash, damage
+var lives = 0
+#Dash cool down, Combo point decay, damage
 var modifiers = [0, 0, 0]
 
 func init():
 	level_started = false
 	depth = 0
-	lives = 1
+	lives = 5
 	modifiers = [0, 0, 0]
 	levels = ["res://Game/Levels/Viridan Level.tscn", "res://Game/Levels/SkeletonLevel.tscn"]
 
@@ -64,6 +64,9 @@ func show_death():
 	scene.title = dead_titles[rand_int(0, dead_titles.size() - 1)]
 	scene.subtitle = dead_subtitles[rand_int(0, dead_subtitles.size() - 1)]
 	get_tree().get_root().add_child(scene)
+	
+func do_upgrade():
+	change_scene("res://Menu/UpgradeMenu.tscn")
 	
 func start_level(level_name=""):
 	var level_started = false

@@ -7,7 +7,7 @@ onready var miniboss = load("res://Game/Enemies/BossSkeleton.tscn")
 onready var player = $Player
 onready var sTimer = $SpawnTimer
 
-var num_skels = Global.rand_int(5, 7)
+var num_skels = 1#Global.rand_int(5, 7)
 var max_skels = 4
 
 var finished = false
@@ -51,8 +51,11 @@ func get_active_skeletons():
 	return num
 
 func _on_death():
-	var scene = Global.life_lost_scene.instance()
-	add_child(scene)
+	if Global.lives > 0:
+		var scene = Global.life_lost_scene.instance()
+		add_child(scene)
+	else:
+		Global.show_death()
 
 func _on_SpawnTimer_timeout():
 	var num = get_active_skeletons()

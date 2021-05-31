@@ -1,0 +1,124 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Art/MainTheme.tres" type="Theme" id=1]
+[ext_resource path="res://Art/Fonts/m5x7.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Menu/Scripts/UpgradeMenu.gd" type="Script" id=3]
+[ext_resource path="res://Menu/BasicButton.tres" type="StyleBox" id=4]
+
+[sub_resource type="DynamicFont" id=3]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=1]
+size = 64
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+font_data = ExtResource( 2 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_left = 0.094
+anchor_top = 0.156
+anchor_right = 0.906
+anchor_bottom = 0.365
+margin_left = -0.320007
+margin_top = -0.32
+margin_right = 0.319946
+margin_bottom = 0.199982
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Button" type="Button" parent="HBoxContainer"]
+margin_right = 344.0
+margin_bottom = 151.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+custom_styles/hover = ExtResource( 4 )
+custom_fonts/font = SubResource( 3 )
+text = "Dash Cooldown"
+
+[node name="Button2" type="Button" parent="HBoxContainer"]
+margin_left = 348.0
+margin_right = 692.0
+margin_bottom = 151.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+custom_styles/hover = ExtResource( 4 )
+custom_fonts/font = SubResource( 5 )
+text = "Combo Point Decay"
+
+[node name="Button3" type="Button" parent="HBoxContainer"]
+margin_left = 696.0
+margin_right = 1040.0
+margin_bottom = 151.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+custom_styles/hover = ExtResource( 4 )
+custom_fonts/font = SubResource( 3 )
+text = "Damage"
+
+[node name="Title" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -94.0
+margin_right = 94.0
+margin_bottom = 51.0
+custom_fonts/font = SubResource( 1 )
+text = "Upgrades"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.3
+anchor_top = 0.467
+anchor_right = 0.7
+anchor_bottom = 0.533
+margin_top = -0.23999
+margin_right = -6.10352e-05
+margin_bottom = 3.23996
+custom_fonts/font = SubResource( 2 )
+align = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Label2" type="Label" parent="."]
+anchor_left = 0.3
+anchor_top = 0.611444
+anchor_right = 0.7
+anchor_bottom = 0.677445
+margin_top = -0.23999
+margin_right = -6.10352e-05
+margin_bottom = 3.23996
+custom_fonts/font = SubResource( 2 )
+text = "Press space to continue"
+align = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[connection signal="mouse_entered" from="HBoxContainer/Button" to="." method="_on_Button_mouse_entered"]
+[connection signal="pressed" from="HBoxContainer/Button" to="." method="_on_Button_pressed"]
+[connection signal="mouse_entered" from="HBoxContainer/Button2" to="." method="_on_Button2_mouse_entered"]
+[connection signal="pressed" from="HBoxContainer/Button2" to="." method="_on_Button2_pressed"]
+[connection signal="mouse_entered" from="HBoxContainer/Button3" to="." method="_on_Button3_mouse_entered"]
+[connection signal="pressed" from="HBoxContainer/Button3" to="." method="_on_Button3_pressed"]

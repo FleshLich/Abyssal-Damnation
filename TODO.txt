@@ -3,9 +3,6 @@ FIX CUTSCENE
 ------Important(Most Important to least important)--------
 Make More Levels
 Make Bosses
-Make Popups for: Win, Lost Life, Died, Encounter name
-Balance Encounters
-Design Levels
 Make upgrade System
 Add SFX and Music
 Add Credits

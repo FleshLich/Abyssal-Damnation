@@ -8,13 +8,12 @@ var can_input = false
 func _ready():
 	$Title.text = title
 	$Title/Label.text = subtitle
-	$Title/Num.text = str(Global.lives)
 	get_tree().paused = true
 
 func _process(delta):
 	if Input.is_action_just_pressed("Space") and can_input:
 		get_tree().paused = false
-		get_tree().change_scene("res://Menu/UpgradeMenu.tscn")
+		get_tree().change_scene("res://Menu/Menu.tscn")
 		queue_free()
 
 func increment_hidden():

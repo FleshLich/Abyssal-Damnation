@@ -21,6 +21,7 @@ func _ready():
 
 func _physics_process(delta):
 	if get_active_enemies() <= 0 and num_enems <= 0:
+		print("test")
 		Global.show_win()
 	if Global.debug and Input.is_action_just_pressed("Reload"):
 		Global.start_level()
@@ -51,8 +52,11 @@ func get_active_enemies():
 	return num
 
 func _on_death():
-	var scene = Global.life_lost_scene.instance()
-	add_child(scene)
+	if Global.lives > 0:
+		var scene = Global.life_lost_scene.instance()
+		add_child(scene)
+	else:
+		Global.show_death()
 
 func _on_SpawnTimer_timeout():
 	var num = get_active_enemies()
