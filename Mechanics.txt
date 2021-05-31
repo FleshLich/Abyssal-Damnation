@@ -1,7 +1,0 @@
-Combo Points(3 or 5)
-One hit gives one combo point
-They decay quickly when not attacking
-Once full, player can stun boss(guaranteed damage) or do heavy attack(lots of damage none guaranteed) -- (Calculate dps and time stunned to make sure player cant do more damage to boss than heavy attack while stunned)
-Player loses points when hit
-
-Maybe make upgrade that unlock more powers
