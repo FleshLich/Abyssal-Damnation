@@ -74,8 +74,9 @@ func _physics_process(delta):
 	elif left:
 		scale.x = scale.y * -1 
 	
-	is_moving = true
-	motion = move_and_slide(motion / delta)
+	if position.distance_to(target) > 5:
+		is_moving = true
+		motion = move_and_slide(motion / delta)
 		
 func take_damage(damage, body=null):
 	health -= damage
