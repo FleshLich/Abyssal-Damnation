@@ -74,7 +74,7 @@ func _physics_process(delta):
 		is_moving = true
 		motion = move_and_collide(motion)
 
-func take_damage(damage):
+func take_damage(damage, body=null):
 	heavy_progress += 1
 	health -= damage
 	if stunned:

@@ -30,6 +30,8 @@ var player = null
 var target = null
 var motion = Vector2()
 
+var gives_points = false
+
 func _ready():
 	player = get_parent().get_node("Player")
 	SPEED = Global.rand_int(5, 7)
@@ -73,7 +75,7 @@ func _physics_process(delta):
 		scale.x = scale.y * -1 
 	
 	is_moving = true
-	motion = move_and_collide(motion)
+	motion = move_and_slide(motion / delta)
 		
 func take_damage(damage, body=null):
 	health -= damage
@@ -95,8 +97,8 @@ func stun():
 func drop_bomb():
 	var drop = bomb.instance()
 	drop.position = position
-	get_parent().add_child(drop)
-	drop.start()
+	get_parent().call_deferred("add_child", drop)
+	drop.call_deferred("start")
 	
 
 func die():
@@ -106,6 +108,7 @@ func die():
 	animplayer.seek(0)
 	animplayer.stop()
 	dead = true
+	hurtPlayer.play("Hurt")
 	hurtPlayer.seek(0)
 	hurtPlayer.stop()
 	animplayer.play("Dead")

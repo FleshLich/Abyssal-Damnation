@@ -35,7 +35,7 @@ var moving_right = false
 var is_attacking = false
 var is_combo = false
 
-var can_dash = true
+var can_dash = false
 var is_dashing = false
 
 var stunned = false
@@ -45,13 +45,15 @@ var max_i = 3
 
 export var dead = false
 
-var last_direction = Vector2.DOWN
+var last_direction = Vector2.ZERO
 
 func _ready():
 	screen_size = get_viewport_rect().size
 	$"Attack Area/Attack Hitbox".disabled = true
+	can_dash = true
 	
 func reset_state():
+	is_moving = false
 	is_dashing = false
 	stunned = false
 	is_combo = false
@@ -61,7 +63,7 @@ func reset_state():
 
 func _physics_process(delta):
 	var motion = Vector2()
-	combo_points = 5
+	#combo_points = 5
 	
 	if dead or stunned:
 		return
@@ -69,11 +71,12 @@ func _physics_process(delta):
 		emit_signal("c_change", combo_points)
 		last_combo_points = combo_points
 	
-	if Input.is_action_just_pressed("Space") and not is_attacking and can_dash:
+	if Input.is_action_pressed("Space") and can_dash and last_direction != Vector2.ZERO and not is_combo:
 		set_collision_mask_bit(1, false)
 		set_collision_layer_bit(0, false)
 		set_collision_mask_bit(19, true)
 		set_collision_layer_bit(19, true)
+		reset_state()
 		can_dash = false
 		is_dashing = true
 		dashTimer.start()
@@ -137,6 +140,8 @@ func _physics_process(delta):
 		animplayer.play("Run")
 	else:
 		animplayer.play("Idle")
+		
+	
 	
 	if not is_dashing:
 		motion = motion.normalized() * SPEED
@@ -193,6 +198,7 @@ func take_damage(damage):
 		hurtPlayer.play("Hurt")
 
 func die():
+	reset_state()
 	Global.lives -= 1
 	dead = true
 	animplayer.play("Dead")
@@ -228,6 +234,8 @@ func _on_Attack_Area_area_entered(area):
 		body.take_damage(damage if attack_num == 1 else second_damage, self)
 		if body.get("stunned") == false:
 			if "Skeleton" in body.name and body.get("is_blocking"):
+				return
+			if body.get("gives_points") == false:
 				return
 			add_combo_points(1)
 

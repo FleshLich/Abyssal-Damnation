@@ -182,6 +182,8 @@ tracks/0/keys = {
 }
 
 [sub_resource type="CapsuleShape2D" id=9]
+radius = 11.2394
+height = 11.3135
 
 [sub_resource type="CapsuleShape2D" id=10]
 radius = 7.87306
@@ -203,7 +205,7 @@ attack_num = 1
 texture = ExtResource( 1 )
 hframes = 6
 vframes = 17
-frame = 1
+frame = 20
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/Attack = SubResource( 1 )
@@ -229,11 +231,11 @@ collision_layer = 0
 collision_mask = 8
 
 [node name="Attack Hitbox" type="CollisionShape2D" parent="Attack Area"]
-position = Vector2( 18.2355, 2.67688 )
+position = Vector2( 18.9873, 4.93225 )
 shape = SubResource( 9 )
 
 [node name="ComboDecay Timer" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 2.0
 
 [node name="InvincibleTimer" type="Timer" parent="."]
 one_shot = true

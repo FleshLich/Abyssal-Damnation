@@ -11,4 +11,4 @@ func _process(delta):
 		spawn.position = spawner.position
 		add_child(spawn)
 	elif Input.is_action_pressed("Next"):
-		get_tree().change_scene("Ab")
+		Global.start_level()

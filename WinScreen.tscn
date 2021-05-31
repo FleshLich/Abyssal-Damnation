@@ -1,25 +1,27 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Art/Fonts/m5x7.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://Game/Scripts/LifeLost.gd" type="Script" id=2]
+[ext_resource path="res://Art/MainTheme.tres" type="Theme" id=2]
+[ext_resource path="res://Game/Scripts/WinScreen.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 128
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 56
+font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 128
 font_data = ExtResource( 1 )
 
 [sub_resource type="DynamicFont" id=5]
-size = 40
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=6]
 size = 128
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=3]
-size = 128
-font_data = ExtResource( 1 )
-
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=6]
+resource_name = "Countdown"
 step = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:custom_colors/font_color")
@@ -31,7 +33,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5, 1 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0.964706, 0, 0, 1 ), Color( 1, 0, 0, 0.698039 ), Color( 1, 0, 0, 0 ) ]
+"values": [ Color( 0.164706, 0.964706, 0, 1 ), Color( 0.164706, 0.964706, 0, 0.698039 ), Color( 0.164706, 0.964706, 0, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("../HiddenNum:custom_colors/font_color")
@@ -43,7 +45,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5, 0.75 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0, 0, 0, 0.521569 ), Color( 1, 0, 0, 0.698039 ), Color( 1, 0, 0, 1 ) ]
+"values": [ Color( 0, 0, 0, 0.521569 ), Color( 0.164706, 0.964706, 0, 0.698039 ), Color( 0.164706, 0.964706, 0, 1 ) ]
 }
 tracks/2/type = "method"
 tracks/2/path = NodePath("../..")
@@ -56,7 +58,7 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
-"method": "decrement_hidden"
+"method": "increment_hidden"
 } ]
 }
 tracks/3/type = "value"
@@ -69,7 +71,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0, 0.5, 0.75 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 128 ), Vector2( 0, 80 ), Vector2( 0, 48 ) ]
+"values": [ Vector2( 0, 192 ), Vector2( 0, 144 ), Vector2( 0, 112 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("../HiddenNum:rect_position")
@@ -81,19 +83,20 @@ tracks/4/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 184 ), Vector2( 0, 128 ) ]
+"values": [ Vector2( 0, 246 ), Vector2( 0, 192 ) ]
 }
 
-[sub_resource type="DynamicFont" id=8]
-size = 24
+[sub_resource type="DynamicFont" id=3]
+size = 32
 font_data = ExtResource( 1 )
 
-[node name="LifeLost" type="ColorRect"]
+[node name="WinScreen" type="ColorRect"]
 pause_mode = 2
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0, 0, 0, 1 )
-script = ExtResource( 2 )
+margin_right = 1280.0
+margin_bottom = 720.0
+theme = ExtResource( 2 )
+color = Color( 0, 0, 0, 0.686275 )
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -102,8 +105,9 @@ __meta__ = {
 margin_top = 200.0
 margin_right = 1280.0
 margin_bottom = 302.0
-custom_fonts/font = SubResource( 4 )
-text = "."
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.180392, 1, 0.176471, 1 )
+text = "Skeleton Horde"
 align = 1
 valign = 1
 autowrap = true
@@ -113,12 +117,12 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="Title"]
-margin_top = 240.0
+margin_top = 112.0
 margin_right = 1280.0
-margin_bottom = 291.0
-custom_fonts/font = SubResource( 5 )
-custom_colors/font_color = Color( 0.964706, 0, 0, 1 )
-text = "Chances remaining"
+margin_bottom = 163.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Destroy the abominable bonemen"
 align = 1
 valign = 1
 autowrap = true
@@ -127,10 +131,10 @@ __meta__ = {
 }
 
 [node name="HiddenNum" type="Label" parent="Title"]
-margin_top = 184.0
+margin_top = 246.0
 margin_right = 1280.0
-margin_bottom = 286.0
-custom_fonts/font = SubResource( 6 )
+margin_bottom = 348.0
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 0.521569 )
 text = "3"
 align = 1
@@ -141,11 +145,11 @@ __meta__ = {
 }
 
 [node name="Num" type="Label" parent="Title"]
-margin_top = 128.0
+margin_top = 192.0
 margin_right = 1280.0
-margin_bottom = 230.0
-custom_fonts/font = SubResource( 3 )
-custom_colors/font_color = Color( 0.964706, 0, 0, 1 )
+margin_bottom = 294.0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0.164706, 0.964706, 0, 1 )
 text = "3"
 align = 1
 valign = 1
@@ -156,18 +160,24 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Title/Num"]
 autoplay = "Countdown"
-anims/Countdown = SubResource( 7 )
+anims/Countdown = SubResource( 6 )
 
-[node name="Label3" type="Label" parent="Title"]
-margin_top = 280.0
+[node name="Label2" type="Label" parent="Title"]
+margin_top = 296.0
 margin_right = 1280.0
-margin_bottom = 331.0
-custom_fonts/font = SubResource( 8 )
+margin_bottom = 347.0
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "Press Space to continue"
+text = "Press Space to descend to the next level"
 align = 1
 valign = 1
 uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="KeyTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="KeyTimer" to="." method="_on_KeyTimer_timeout"]

@@ -20,11 +20,10 @@ func _ready():
 	player.connect("died", self, "_on_death")	
 
 func _physics_process(delta):
-	if get_active_skeletons() == 0 and num_skels == 0:
-		Global.level_started = false
-		Global.lives += 1
+	if get_active_skeletons() <= 0 and num_skels <= 0:
+		Global.show_win()
 	if Global.debug and Input.is_action_just_pressed("Reload"):
-		Global.change_scene("res://Game/Levels/SkeletonLevel.tscn")
+		Global.start_level()
 
 func spawn_skeleton():
 	var spawn = skeleton.instance()
@@ -61,3 +60,4 @@ func _on_SpawnTimer_timeout():
 		return
 	spawn_skeleton()
 	sTimer.wait_time = Global.rand_int(2 * num, 4 * num)
+

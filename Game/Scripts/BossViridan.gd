@@ -10,7 +10,7 @@ onready var tTimer = $ThrowTimer
 
 var bomb = load("res://Game/Enemies/EnemyProps/Bomb.tscn")
 
-export var health = 40
+export var health = 30
 export var damage = 40
 
 export var SPEED = 6
@@ -24,6 +24,9 @@ var right = false
 
 var is_attacking = false
 var is_throwing = false
+var is_dodging = false
+
+var can_attack = true
 
 var i_counter = 0
 var max_i = 3
@@ -31,6 +34,12 @@ var max_i = 3
 var player = null
 var target = null
 var motion = Vector2()
+
+func reset_state():
+	is_attacking = false
+	is_moving = false
+	is_dodging = false
+	is_moving = false
 
 func _ready():
 	player = get_parent().get_node("Player")
@@ -41,7 +50,7 @@ func _ready():
 func _physics_process(delta):
 	target = player.position
 	
-	if dead or stunned or is_throwing:
+	if dead or stunned or is_throwing or is_dodging:
 		return
 	
 	if target.x >= position.x:
@@ -49,10 +58,11 @@ func _physics_process(delta):
 	elif target.x < position.x:
 		target.x = target.x + ($CollisionShape2D.shape.radius * 2)
 	
-	if not is_attacking:
+	if not is_attacking and not is_dodging and can_attack:
 		for areaInArea in $"Detect Area".get_overlapping_areas():
 			if areaInArea.get_parent().name == "Player":
 				is_attacking = true
+				animplayer.playback_speed = 0.8
 				animplayer.play("Attack")
 				break
 	if is_attacking:
@@ -76,9 +86,16 @@ func _physics_process(delta):
 		scale.x = scale.y * -1 
 	
 	is_moving = true
-	motion = move_and_collide(motion)
+	motion = move_and_slide_with_snap(motion / delta, Vector2(0.1,0.1))
 		
 func take_damage(damage, body=null):
+	if Global.rand_int(0, 100) < 41 and not is_throwing and not stunned:
+		animplayer.play("Dodge")
+		reset_state()
+		is_dodging = true
+		can_attack = false
+	if is_dodging:
+		return
 	health -= damage
 	if health <= 0 and not dead:
 		die()
@@ -90,12 +107,15 @@ func take_damage(damage, body=null):
 func stun():
 	if dead:
 		return
+	reset_state()
 	animplayer.play("Idle")
 	hurtPlayer.play("Stun")
 	stunTimer.start()
 	stunned = true
 	
 func throw_bomb():
+	if stunned or is_dodging or is_attacking:
+		return
 	tTimer.wait_time = Global.rand_int(3, 5)
 	var drop = bomb.instance()
 	drop.position = position
@@ -106,6 +126,8 @@ func throw_bomb():
 func die():
 	$CollisionShape2D.queue_free()
 	$Hitbox2.queue_free()
+	is_throwing = false
+	tTimer.stop()
 	z_index = -1
 	animplayer.seek(0)
 	animplayer.stop()
@@ -122,10 +144,14 @@ func _on_Hit_Area_area_entered(area):
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if "Attack" in anim_name:
-		is_attacking = false
+		reset_state()
+		animplayer.playback_speed = 1
 	if anim_name == "Throw":
 		is_throwing = false
 		throw_bomb()
+	elif anim_name == "Dodge":
+		is_dodging = false
+		$AttackTimer.start()
 
 func _on_hurtPlayer_animation_finished(anim_name):
 	if anim_name == "Hurt":
@@ -137,6 +163,7 @@ func _on_hurtPlayer_animation_finished(anim_name):
 
 
 func _on_StunTimer_timeout():
+	reset_state()
 	stunned = false
 	is_attacking = false
 	hurtPlayer.seek(0, true)
@@ -144,5 +171,12 @@ func _on_StunTimer_timeout():
 	
 
 func _on_ThrowTimer_timeout():
+	if stunned:
+		return
 	animplayer.play("Throw")
+	reset_state()
 	is_throwing = true
+
+
+func _on_AttackTimer_timeout():
+	can_attack = true

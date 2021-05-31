@@ -15,6 +15,7 @@ font_data = ExtResource( 5 )
 script = ExtResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 855.17, 413.704 )
 
 [node name="Skeleton" parent="." instance=ExtResource( 2 )]
 position = Vector2( 507.968, 146.041 )
@@ -26,14 +27,12 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 [node name="Label" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = 434.066
-margin_top = 0.672699
-margin_right = 842.066
-margin_bottom = 49.6727
+margin_left = 448.0
+margin_right = 856.0
+margin_bottom = 49.0
 theme = ExtResource( 6 )
 custom_fonts/font = SubResource( 1 )
-text = "Press Z when you are finished testing"
-align = 1
+text = "Press Z when you wish to begin"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -41,14 +40,13 @@ __meta__ = {
 [node name="Label2" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = 434.066
-margin_top = 675.253
-margin_right = 842.066
-margin_bottom = 724.253
+margin_left = 448.0
+margin_top = 664.0
+margin_right = 840.0
+margin_bottom = 713.0
 theme = ExtResource( 6 )
 custom_fonts/font = SubResource( 1 )
 text = "Press R to restart the level."
-align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -56,14 +54,13 @@ __meta__ = {
 [node name="Label3" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = 434.066
-margin_top = 646.969
-margin_right = 912.066
-margin_bottom = 695.969
+margin_left = 448.0
+margin_top = 640.0
+margin_right = 926.0
+margin_bottom = 689.0
 theme = ExtResource( 6 )
 custom_fonts/font = SubResource( 1 )
 text = "Press K to spawn another skeleton."
-align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

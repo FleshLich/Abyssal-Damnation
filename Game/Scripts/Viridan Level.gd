@@ -7,8 +7,8 @@ onready var miniboss = load("res://Game/Enemies/BossViridan.tscn")
 onready var player = $Player
 onready var sTimer = $SpawnTimer
 
-var num_enems = Global.rand_int(16, 22)
-var max_enems = 5
+var num_enems = Global.rand_int(10, 15)
+var max_enems = 4
 
 var finished = false
 
@@ -20,19 +20,16 @@ func _ready():
 	player.connect("died", self, "_on_death")	
 
 func _physics_process(delta):
-	if get_active_enemies() == 0 and num_enems == 0:
-		Global.level_started = false
-		Global.lives += 1
+	if get_active_enemies() <= 0 and num_enems <= 0:
+		Global.show_win()
 	if Global.debug and Input.is_action_just_pressed("Reload"):
-		get_tree().reload_current_scene()
+		Global.start_level()
 
-func spawn_enemy():
-	var spawn = Viridan.instance()
+func spawn_enemy(check=true):
+	var spawn = Viridan.instance() if Global.rand_int(0, 100) < 90 else miniboss.instance()
 	var desiredPoints = []
 	num_enems -= 1
-	if num_enems == 0:
-		sTimer.stop()
-	if num_enems % 3 == 0 and num_enems > 0:
+	if num_enems % 3 == 0:
 		spawn = miniboss.instance()
 	for point in get_tree().get_nodes_in_group("Spawns"):
 		if player.position.distance_to(point.position) > 300:
@@ -44,6 +41,7 @@ func spawn_enemy():
 	spawn.position = new_point.position
 	last_point = new_point
 	add_child(spawn)
+	
 	
 func get_active_enemies():
 	var num = 0
@@ -58,7 +56,14 @@ func _on_death():
 
 func _on_SpawnTimer_timeout():
 	var num = get_active_enemies()
+	if num_enems <= 0:
+		sTimer.stop()
 	if num >= max_enems:
 		return
-	spawn_enemy()
-	sTimer.wait_time = Global.rand_int(2, 4)
+	if num_enems > 0:
+		spawn_enemy()
+		spawn_enemy()
+	else:
+		spawn_enemy()
+	sTimer.wait_time = Global.rand_int(1, 3)
+

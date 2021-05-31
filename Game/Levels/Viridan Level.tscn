@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Game/Scripts/Viridan Level.gd" type="Script" id=1]
 [ext_resource path="res://Art/Tileset/Tileset.png" type="Texture" id=2]
 [ext_resource path="res://Art/Tileset/Tiles.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Game/Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://LevelTitle.tscn" type="PackedScene" id=5]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -256,5 +257,9 @@ autostart = true
 
 [node name="Player" parent="." instance=ExtResource( 4 )]
 position = Vector2( 664, 296 )
+
+[node name="LevelTitle" parent="." instance=ExtResource( 5 )]
+title = "Viridan Menace"
+subtitle = "Slaughter these fiendish creatures, but beware of their ingenuity and dexterity"
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]

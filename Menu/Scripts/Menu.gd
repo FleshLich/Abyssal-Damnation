@@ -11,7 +11,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if Input.is_action_pressed("Test"):
-		Global.change_scene("res://Game/Levels/Viridan Level.tscn")
+		Global.start_level()
 		#Global.change_scene("res://LifeLost.tscn")
 
 

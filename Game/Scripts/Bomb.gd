@@ -22,7 +22,9 @@ func _physics_process(delta):
 	if not thrown:
 		return
 	velocity = position.direction_to(target) * speed
-	move_and_slide_with_snap(velocity / delta, Vector2(2, 2))
+	var collision = move_and_collide(velocity)
+	if collision != null:
+		target = position
 	if position.distance_to(target) < 5:
 		thrown = false
 		start()
